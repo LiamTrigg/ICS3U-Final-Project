@@ -1,3 +1,5 @@
+import random
+
 CLUBS = "\u2663"
 SPADES = "\u2660"
 HEARTS = "\u2665"
