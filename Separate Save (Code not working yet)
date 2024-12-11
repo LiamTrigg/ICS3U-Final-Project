@@ -1,0 +1,27 @@
+kitty = ["card_1", "card_2", "card_3", "card_4"]
+
+
+##Initial player order
+
+#lead = [player, cpu1, cpu2, cpu3]
+
+##Update lead after each round
+
+lead.append(lead.pop(0)
+
+
+def player_choose_trump_1():
+    choice = input(f"Would you like {kitty[:1]} to be trump")
+    exit = False
+    if choice.lower() == "yes":
+        trump = choice
+        exit = True
+    elif choice.lower() == "no":
+        exit = True 
+    else:
+        player_choose_trump_1()
+        
+print(player_choose_trump_1())
+
+#def computer_choose_trump_1():
+    ##If atleast 1 jack and two trump
