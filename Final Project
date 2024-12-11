@@ -4,3 +4,12 @@ HEARTS = "\u2665"
 DIAMONDS = "\u2666"
 
 DECK = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+
+shuffled_deck = list(deck)
+random.shuffle(shuffled_deck)
+
+hand_one = shuffled_deck[:5]
+hand_two = shuffled_deck[5:10]
+hand_three = shuffled_deck[10:15]
+hand_four = shuffled_deck[15:20]
+kitty = shuffled_deck[20:]
