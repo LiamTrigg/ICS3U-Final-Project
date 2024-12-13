@@ -25,7 +25,7 @@ DECK_SPADES_CLUBS_TRUMP = [f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}1
 DECK_HEARTS_DIAMONDS_TRUMP = [f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
 DECK_DIAMONDS_HEARTS_TRUMP = [f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9"]
 
-shuffled_deck = list(deck)
+shuffled_deck = list(DECK)
 random.shuffle(shuffled_deck)
 
 hand_one = shuffled_deck[:5]
@@ -73,67 +73,79 @@ def number_card_in_hand (hand, number_deck):
             index = index + 1
     return False
     
-def bot_follow_suit (hand, trump, lead):
-    if trump == CLUBS:
-        if lead == CLUBS:
-            if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
-                return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
-        elif lead == CLUBS:
-            if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
-        elif lead == HEARTS:
-            if highest_card_in_hand(hand, DECK_HEARTS) != False:
-                return highest_card_in_hand(hand, DECK_HEARTS)
-        elif lead == DIAMONDS:
-            if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
-                return highest_card_in_hand(hand, DECK_DIAMONDS)
-        if highest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
-    if trump == SPADES:
-        if lead == SPADES:
-            if lowest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
-                return lowest_card_in_hand(hand, DECK_SPADES_TRUMP)
-        elif lead == CLUBS:
-            if highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP)
-        elif lead == HEARTS:
-            if highest_card_in_hand(hand, DECK_HEARTS) != False:
-                return highest_card_in_hand(hand, DECK_HEARTS)
-        elif lead == DIAMONDS:
-            if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
-                return highest_card_in_hand(hand, DECK_DIAMONDS)
-        if highest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
-    if trump == HEARTS:
-        if lead == HEARTS:
-            if lowest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
-                return lowest_card_in_hand(hand, DECK_HEARTS_TRUMP)
-        elif lead == DIAMONDS:
-            if highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP) != False:
+def bot_card_clubs_trump (hand, lead):
+    if lead == CLUBS:
+        if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
+    elif lead == HEARTS:
+        if highest_card_in_hand(hand, DECK_HEARTS) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS)
+    if highest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    else:
+        return False
+
+def bot_card_spades_trump (hand, lead):
+    if lead == SPADES:
+        if lowest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP)
+    elif lead == HEARTS:
+        if highest_card_in_hand(hand, DECK_HEARTS) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS)
+    if highest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    else:
+        return False
+        
+def bot_card_hearts_trump (hand, lead):
+    if lead == HEARTS:
+        if lowest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand,DECK_DIAMONDS_HEARTS_TRUMP) != False:
                 return highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP)
-        elif lead == CLUBS:
-            if highest_card_in_hand(hand, DECK_CLUBS) != False:
-                return highest_card_in_hand(hand, DECK_CLUBS)
-        elif lead == SPADES:
-            if highest_card_in_hand(hand, DECK_SPADES) != False:
-                return highest_card_in_hand(hand, DECK_SPADES)
-        if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
-    if trump == DIAMONDS:
-        if lead == DIAMONDS:
-            if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
-                return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
-        elif lead == DIAMONDS:
-            if highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP)
-        elif lead == CLUBS:
-            if highest_card_in_hand(hand, DECK_CLUBS) != False:
-                return highest_card_in_hand(hand, DECK_CLUBS)
-        elif lead == SPADES:
-            if highest_card_in_hand(hand, DECK_SPADES) != False:
-                return highest_card_in_hand(hand, DECK_SPADES)
-        if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES) != False:
+            return highest_card_in_hand(hand, DECK_SPADES)
+    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)       
+    else:
+        return False
+        
+def bot_card_diamonds_trump (hand, lead):
+    if lead == DIAMONDS:
+        if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES) != False:
+            return highest_card_in_hand(hand, DECK_SPADES)
+    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)    
+    else:
+        return False
+
+def bot_lay_offsuit_card (hand):
     if number_card_in_hand(hand, DECK_NINE) != False:
         return number_card_in_hand(hand, DECK_NINE)
     elif number_card_in_hand(hand, DECK_TEN) != False:
@@ -146,3 +158,18 @@ def bot_follow_suit (hand, trump, lead):
         return number_card_in_hand(hand, DECK_KING)
     else:
         return number_card_in_hand(hand, DECK_ACE)
+        
+def bot_choose_card_to_lay (hand, trump, lead):
+    if trump == CLUBS:
+        if bot_card_clubs_trump(hand, lead) != False:
+            return bot_card_clubs_trump(hand, lead)
+    if trump == SPADES:
+        if bot_card_spades_trump(hand, lead) != False:
+            return bot_card_spades_trump(hand, lead)
+    if trump == HEARTS:
+        if bot_card_hearts_trump(hand, lead) != False:
+            return bot_card_hearts_trump(hand, lead)
+    if trump == DIAMONDS:
+        if bot_card_diamonds_trump(hand, lead) != False:
+            return bot_card_diamonds_trump
+    return bot_lay_offsuit_card(hand)
