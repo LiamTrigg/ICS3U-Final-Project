@@ -45,3 +45,104 @@ def farmers_hand (hand):
         return True
     else:
         return False
+
+def lowest_card_in_hand (hand, suit_deck):
+    index = len(suit_deck) - 1
+    while index >= 0:
+        if suit_deck[index] in hand:
+            return suit_deck[index]
+        else:
+            index = index - 1
+    return False
+    
+def highest_card_in_hand (hand, suit_deck):
+    index = 0
+    while index < len(suit_deck):
+        if suit_deck[index] in hand:
+            return suit_deck[index]
+        else:
+            index = index + 1
+    return False
+    
+def number_card_in_hand (hand, number_deck):
+    index = 0
+    while index < len(number_deck):
+        if number_deck[index] in hand:
+            return number_deck[index]
+        else:
+            index = index + 1
+    return False
+    
+def bot_follow_suit (hand, trump, lead):
+    if trump == CLUBS:
+        if lead == CLUBS:
+            if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+                return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+        elif lead == CLUBS:
+            if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
+        elif lead == HEARTS:
+            if highest_card_in_hand(hand, DECK_HEARTS) != False:
+                return highest_card_in_hand(hand, DECK_HEARTS)
+        elif lead == DIAMONDS:
+            if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+                return highest_card_in_hand(hand, DECK_DIAMONDS)
+        if highest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    if trump == SPADES:
+        if lead == SPADES:
+            if lowest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+                return lowest_card_in_hand(hand, DECK_SPADES_TRUMP)
+        elif lead == CLUBS:
+            if highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP)
+        elif lead == HEARTS:
+            if highest_card_in_hand(hand, DECK_HEARTS) != False:
+                return highest_card_in_hand(hand, DECK_HEARTS)
+        elif lead == DIAMONDS:
+            if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+                return highest_card_in_hand(hand, DECK_DIAMONDS)
+        if highest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    if trump == HEARTS:
+        if lead == HEARTS:
+            if lowest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+                return lowest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+        elif lead == DIAMONDS:
+            if highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP)
+        elif lead == CLUBS:
+            if highest_card_in_hand(hand, DECK_CLUBS) != False:
+                return highest_card_in_hand(hand, DECK_CLUBS)
+        elif lead == SPADES:
+            if highest_card_in_hand(hand, DECK_SPADES) != False:
+                return highest_card_in_hand(hand, DECK_SPADES)
+        if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    if trump == DIAMONDS:
+        if lead == DIAMONDS:
+            if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
+                return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
+        elif lead == DIAMONDS:
+            if highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP)
+        elif lead == CLUBS:
+            if highest_card_in_hand(hand, DECK_CLUBS) != False:
+                return highest_card_in_hand(hand, DECK_CLUBS)
+        elif lead == SPADES:
+            if highest_card_in_hand(hand, DECK_SPADES) != False:
+                return highest_card_in_hand(hand, DECK_SPADES)
+        if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    if number_card_in_hand(hand, DECK_NINE) != False:
+        return number_card_in_hand(hand, DECK_NINE)
+    elif number_card_in_hand(hand, DECK_TEN) != False:
+        return number_card_in_hand(hand, DECK_TEN)
+    elif number_card_in_hand(hand, DECK_JACK) != False:
+        return number_in_hand(hand, DECK_JACK)
+    elif number_card_in_hand(hand, DECK_QUEEN) != False:
+        return number_card_in_hand(hand, DECK_QUEEN)
+    elif number_card_in_hand(hand, DECK_KING) != False:
+        return number_card_in_hand(hand, DECK_KING)
+    else:
+        return number_card_in_hand(hand, DECK_ACE)
