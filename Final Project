@@ -33,3 +33,15 @@ hand_two = shuffled_deck[5:10]
 hand_three = shuffled_deck[10:15]
 hand_four = shuffled_deck[15:20]
 kitty = shuffled_deck[20:]
+
+def farmers_hand (hand):
+    count_nine_ten = 0
+    index = 0
+    while index < 5:
+        if (hand[index] in DECK_NINE) or (hand[index] in DECK_TEN):
+            count_nine_ten = count_nine_ten + 1
+        index = index + 1
+    if count_nine_ten >= 4:
+        return True
+    else:
+        return False
