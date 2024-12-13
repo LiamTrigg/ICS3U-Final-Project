@@ -1,0 +1,40 @@
+def trump_check (card, trump):
+    if trump == CLUBS:
+        return card in DECK_CLUBS_TRUMP
+    elif trump == SPADES:
+        return card in DECK_SPADES_TRUMP
+    elif trump == HEARTS:
+        return card in DECK_HEARTS_TRUMP
+    else:
+        return card in DECK_DIAMONDS_TRUMP
+    
+def bot_lead_right (hand, trump):    
+    if trump == CLUBS:
+        if DECK_CLUBS_TRUMP[0] in hand:
+            return DECK_CLUBS_TRUMP[0]
+    elif trump == SPADES:
+        if DECK_SPADES_TRUMP[0] in hand:
+            return DECK_SPADES_TRUMP[0]
+    elif trump == HEARTS:
+        if DECK_HEARTS_TRUMP[0] in hand:
+            return DECK_HEARTS_TRUMP[0]
+    elif trump == DIAMONDS:
+        if DECK_DIAMONDS_TRUMP[0] in hand:
+            return DECK_DIAMONDS_TRUMP[0]
+    else:
+        return False
+       
+def bot_lead_offsuit_ace (hand, trump):
+    index = 0
+    while index < 4:
+        if (DECK_ACE[index] in hand) and (trump_check(DECK_ACE[index], trump):
+            return DECK_ACE[index]
+    return False
+    
+def bot_choose_card_to_lead (hand, trump):
+    if bot_lead_right (hand, trump) != False:
+        return bot_lead_right (hand, trump)
+    elif bot_lead_offsuit_ace (hand, trump) != False:
+        return bot_lead_offsuit_ace (hand, trump)
+    
+    
