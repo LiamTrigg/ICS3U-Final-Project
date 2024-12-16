@@ -185,7 +185,6 @@ def trump_check(card, trump):
     else:
         return card in DECK_DIAMONDS_TRUMP
 
-
 def bot_lead_right(hand, trump):
     if trump == CLUBS:
         if DECK_CLUBS_TRUMP[0] in hand:
@@ -247,7 +246,6 @@ def bot_lead_offsuit_ace(hand, trump):
             return DECK_ACE[index]
         index = index + 1
     return False
-
 
 def bot_choose_card_to_lead(hand, trump):
     if bot_lead_right(hand, trump) != False:
