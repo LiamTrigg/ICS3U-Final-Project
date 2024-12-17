@@ -263,3 +263,142 @@ def bot_choose_card_to_lead(hand, trump):
             hand.remove(card)
             card = bot_lay_offsuit_card(hand)
         return card
+
+def player_follow_suit_clubs (hand, trump, card):
+    if trump == CLUBS:
+        if card in DECK_CLUBS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == SPADES:
+        if card in DECK_CLUBS_SPADES_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS_SPADES_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_CLUBS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS:
+                    return False
+                index = index + 1
+            return True
+
+def player_follow_suit_spades (hand, trump, card):
+    if trump == SPADES:
+        if card in DECK_SPADES_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == CLUBS:
+        if card in DECK_SPADES_CLUBS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES_CLUBS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_SPADES:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES:
+                    return False
+                index = index + 1
+            return True
+
+def player_follow_suit_hearts (hand, trump, card):
+    if trump == HEARTS:
+        if card in DECK_HEARTS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == DIAMONDS:
+        if card in DECK_HEARTS_DIAMONDS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS_DIAMONDS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_HEARTS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS:
+                    return False
+                index = index + 1
+            return True
+
+def player_follow_suit_diamonds (hand, trump, card):
+    if trump == DIAMONDS:
+        if card in DECK_DIAMONDS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == SPADES:
+        if card in DECK_DIAMONDS_HEARTS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS_HEARTS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_DIAMONDS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS:
+                    return False
+                index = index + 1
+            return True
+
+## check if player can lay card chosen or must follow suit
+def valid_player_card (hand, trump, lead, card):
+    if lead == CLUBS:
+        return player_follow_suit_clubs(hand, trump, card)
+    if lead == SPADES:
+        return player_follow_suit_spades(hand, trump, card)
+    if lead == HEARTS:
+        return player_follow_suit_hearts(hand, trump, card)
+    if lead == DIAMONDS:
+        return player_follow_suit_diamonds(hand, trump, card)
