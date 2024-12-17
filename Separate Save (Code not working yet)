@@ -33,3 +33,23 @@ def player_choose_trump_1():
         return "pass"
     else:
         player_choose_trump_1()
+
+##Allows the player to choose trump on the second round
+def player_choose_trump_2():
+    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])})")
+    
+    if choice.lower() == "clubs":
+        if suit(kitty[0]) != CLUBS: 
+            return CLUBS
+        else:
+            player_choose_trump_2()
+    elif choice.lower() == "spades":
+        return SPADES
+    elif choice.lower() == "hearts":
+        return HEARTS
+    elif choice.lower() == "diamonds":
+        return DIAMONDS
+    else:
+        player_choose_trump_2()
+print(player_choose_trump_2())
+
