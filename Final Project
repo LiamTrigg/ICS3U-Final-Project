@@ -438,3 +438,63 @@ def add_kitty_card_to_bot_hand(hand, trump, card):
     hand.remove(discarded_card)
     hand.append(card)
     return hand
+
+## bot decide trump first round
+def bot_choose_trump_first_round(hand):
+    trump = suit(kitty[0])
+    if trump == CLUBS:
+        if DECK_CLUBS_TRUMP[0] in hand or DECK_CLUBS_TRUMP[1] in hand:
+            counter = 0
+            index = 2
+            for index < 5:
+                if DECK_CLUBS_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+    elif trump == SPADES:
+        if DECK_SPADES_TRUMP[0] in hand or DECK_SPADES_TRUMP[1] in hand:
+            counter = 0
+            index = 2
+            for index < 5:
+                if DECK_SPADES_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+    elif trump == HEARTS:
+        if DECK_HEARTS_TRUMP[0] in hand or DECK_HEARTS_TRUMP[1] in hand:
+            counter = 0
+            index = 2
+            for index < 5:
+                if DECK_HEARTS_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        if DECK_DIAMONDS_TRUMP[0] in hand or DECK_DIAMONDS_TRUMP[1] in hand:
+            counter = 0
+            index = 2
+            for index < 5:
+                if DECK_DIAMONDS_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
