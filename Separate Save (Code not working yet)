@@ -9,19 +9,27 @@ kitty = ["card_1", "card_2", "card_3", "card_4"]
 
 lead.append(lead.pop(0)
 
+##Checks what suit a card is
+def suit(card):
+    ##If card is in Clubs
+    if card in DECK_CLUBS:
+        return CLUBS
+    ##If card is in Spades
+    elif card in DECK_SPADES:
+        return SPADES
+    ##If card is in Hearts
+    elif card in DECK_HEARTS:
+        return HEARTS
+    ##If card it in Diamonds
+    else:
+        return DIAMONDS
 
+##Allows the player to choose trump on the first round
 def player_choose_trump_1():
-    choice = input(f"Would you like {kitty[:1]} to be trump")
-    exit = False
+    choice = input(f"Would you like {kitty[0]} to be trump")
     if choice.lower() == "yes":
-        trump = choice
-        exit = True
+        return suit(kitty[0])
     elif choice.lower() == "no":
-        exit = True 
+        return "pass"
     else:
         player_choose_trump_1()
-        
-print(player_choose_trump_1())
-
-#def computer_choose_trump_1():
-    ##If atleast 1 jack and two trump
