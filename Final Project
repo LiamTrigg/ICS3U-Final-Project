@@ -402,3 +402,28 @@ def valid_player_card (hand, trump, lead, card):
         return player_follow_suit_hearts(hand, trump, card)
     if lead == DIAMONDS:
         return player_follow_suit_diamonds(hand, trump, card)
+
+##Checks what suit a card is
+def suit(card):
+    ##If card is in Clubs
+    if card in DECK_CLUBS:
+        return CLUBS
+    ##If card is in Spades
+    elif card in DECK_SPADES:
+        return SPADES
+    ##If card is in Hearts
+    elif card in DECK_HEARTS:
+        return HEARTS
+    ##If card it in Diamonds
+    else:
+        return DIAMONDS
+
+##Allows the player to choose trump on the first round
+def player_choose_trump_1():
+    choice = input(f"Would you like {kitty[0]} to be trump")
+    if choice.lower() == "yes":
+        return suit(kitty[0])
+    elif choice.lower() == "no":
+        return "pass"
+    else:
+        player_choose_trump_1()
