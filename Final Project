@@ -427,3 +427,14 @@ def player_choose_trump_1():
         return "pass"
     else:
         player_choose_trump_1()
+
+## if bot dealt and told to pick up kitty card - new hand
+def add_kitty_card_to_bot_hand(hand, trump, card):
+    discarded_card = bot_lay_offsuit_card(hand)
+    new_hand = list(hand)
+    while trump_check(discarded_card, trump) == True:
+        new_hand.remove(discarded_card)
+        discarded_card = bot_lay_offsuit_card(new_hand)
+    hand.remove(discarded_card)
+    hand.append(card)
+    return hand
