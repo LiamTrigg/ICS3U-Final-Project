@@ -498,3 +498,48 @@ def bot_choose_trump_first_round(hand):
                 return False
         else:
             return False
+
+## bot decide trump second round
+def bot_choose_trump_second_round(hand):
+    not_trump = suit(kitty[0])
+    if DECK_CLUBS_TRUMP[0] in hand or DECK_CLUBS_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        for index < 5:
+            if DECK_CLUBS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = CLUBS
+    if DECK_SPADES_TRUMP[0] in hand or DECK_SPADES_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        for index < 5:
+            if DECK_SPADES_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = SPADES
+    if DECK_HEARTS_TRUMP[0] in hand or DECK_HEARTS_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        for index < 5:
+            if DECK_HEARTS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = HEARTS
+    if DECK_DIAMONDS_TRUMP[0] in hand or DECK_DIAMONDS_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        for index < 5:
+            if DECK_DIAMONDS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = DIAMONDS
+    trump = "no"
+    if trump != not_trump:
+        return trump
+    else:
+        return False
