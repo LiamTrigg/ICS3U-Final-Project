@@ -53,3 +53,18 @@ def player_choose_trump_2():
         player_choose_trump_2()
 print(player_choose_trump_2())
 
+##Play a round of Euchre!
+
+##Deal
+
+##Choose Trump
+    
+    ##Round 1
+    
+    ##Round 2
+    
+##Play Rounds
+
+##Decide who wins
+
+
