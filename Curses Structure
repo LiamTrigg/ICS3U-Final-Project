@@ -19,3 +19,27 @@ def main(stdscr):
         stdscr.refresh()
 
 curses.wrapper(main)
+
+import curses
+def main(stdscr):
+    stdscr.clear()
+
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+
+    stdscr.addstr(1, 70, "Welcome to Euchre - Coded by Liam and Marika!", curses.color_pair(1))
+
+    stdscr.addstr(3, 75, "Enter 1 to play!")
+    stdscr.addstr(4, 75, "Enter 2 to see the rules")
+    stdscr.addstr(5, 75, "Enter q to quit the game")
+    stdscr.refresh()
+
+    while True:
+        key = stdscr.getch()
+        if key==ord('q'):
+            break
+        if key==ord('2'):
+            stdscr.addstr(9,5, f"Rules")
+            stdscr.refresh()
+
+curses.wrapper(main)
