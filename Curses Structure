@@ -1,0 +1,21 @@
+import curses
+def main(stdscr):
+    stdscr.clear()
+
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+
+    stdscr.addstr(6, 5, "Hello World", curses.color_pair(1))
+
+    stdscr.addstr(25, 50, "Enter a key (q to quit):")
+    stdscr.refresh()
+
+    while True:
+        key = stdscr.getch()
+        if key==ord('q'):
+            break
+
+        stdscr.addstr(9,5, f"You pressed: {chr(key)}")
+        stdscr.refresh()
+
+curses.wrapper(main)
