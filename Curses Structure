@@ -21,6 +21,11 @@ def main(stdscr):
 curses.wrapper(main)
 
 import curses
+
+
+
+
+
 def main(stdscr):
     stdscr.clear()
 
@@ -39,7 +44,18 @@ def main(stdscr):
         if key==ord('q'):
             break
         if key==ord('2'):
-            stdscr.addstr(9,5, f"Rules")
-            stdscr.refresh()
+            stdscr.clear()
+            stdscr.addstr(1,75, f"Rules")
+            stdscr.addstr(2,75, f"Euchre is a 4 player game played in teams of two.")
+            stdscr.addstr(3, 75, f"In this version of Euchre, the three other players,")
+            stdscr.addstr(4, 75, f"places will be taken by the computer.")
 
+            stdscr.addstr(6, 75, f"The goal of Euchre is to be the first team to ten")
+            stdscr.addstr(7, 75, f"points. Points are earned at the end of each round")
+            stdscr.addstr(8, 75, f"where the goal is to win as many tricks as possible.")
+
+            stdscr.refresh()
+        if key==ord('1'):
+            stdscr.clear()
+            stdscr.addstr(1,75, "Euchre")
 curses.wrapper(main)
