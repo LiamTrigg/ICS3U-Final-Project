@@ -11,7 +11,9 @@ CLUBS = "\u2663"
 SPADES = "\u2660"
 HEARTS = "\u2665"
 DIAMONDS = "\u2666"
-PASS = "Pass"
+PASS = "pass"
+trump = "Not chosen yet"
+
 ## full deck
 DECK = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
 ## list of aces
@@ -87,7 +89,7 @@ def suit(card):
     else:
         return DIAMONDS
 
-##Allows the player to choose trump on the first round
+##Allows the player to choose trump in the first round
 def player_choose_trump_first_round():
     choice = input(f"Would you like {kitty[0]} to be trump? ")
     if choice.lower() == "yes":
@@ -96,8 +98,7 @@ def player_choose_trump_first_round():
         return False
     else:
         player_choose_trump_first_round()
-
-## bot decide trump first round
+## Allows the computer to choose trump in first round
 def bot_choose_trump_first_round(hand):
     trump = suit(kitty[0])
     if trump == CLUBS:
@@ -156,27 +157,28 @@ def bot_choose_trump_first_round(hand):
                 return False
         else:
             return False
-
+## Allows the player to choose trump in the second round
 def player_choose_trump_second_round():
+
     choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}) ")
 
     if choice.lower() == "clubs":
         if suit(kitty[0]) != CLUBS:
             return CLUBS
-    elif choice.lower() == "spades":
+    if choice.lower() == "spades":
         if suit(kitty[0]) != SPADES:
             return SPADES
-    elif choice.lower() == "hearts":
+    if choice.lower() == "hearts":
         if suit(kitty[0]) != HEARTS:
             return HEARTS
-    elif choice.lower() == "diamonds":
+    if choice.lower() == "diamonds":
         if suit(kitty[0]) != DIAMONDS:
             return DIAMONDS
-    elif choice.lower() == "pass":
+    if choice.lower() == "pass":
         return PASS
-    return player_choose_trump_second_round()
-
-## bot decide trump second round
+    else:
+        return player_choose_trump_second_round()
+## Allows the computer to decide trump in the second round
 def bot_choose_trump_second_round(hand):
     not_trump = suit(kitty[0])
     trump = ""
@@ -257,77 +259,7 @@ def bot_choose_trump_second_round(hand):
     else:
         return False
 
-
-
-def choose_trump_second():
-    trump = ""
-    exit = False
-    while exit == False:
-        if turn_order[0] == "player":
-            player_choice = player_choose_trump_second_round()
-            if player_choice == CLUBS:
-                trump = CLUBS
-                exit = True
-            elif player_choice == SPADES:
-                trump = SPADES
-                exit = True
-            elif player_choice == HEARTS:
-                trump = HEARTS
-                exit = True
-            elif player_choice == DIAMONDS:
-                trump = DIAMONDS
-                exit = True
-            else:
-                change_turn()
-        elif turn_order[0] == "cpu1":
-            if bot_choose_trump_second_round(cpu1) == CLUBS:
-                trump = CLUBS
-                exit = True
-            if bot_choose_trump_second_round(cpu1) == SPADES:
-                trump = SPADES
-                exit = True
-            if bot_choose_trump_second_round(cpu1) == HEARTS:
-                trump = HEARTS
-                exit = True
-            if bot_choose_trump_second_round(cpu1) == DIAMONDS:
-                trump = DIAMONDS
-                exit = True
-            else:
-                change_turn()
-        elif turn_order[0] == "cpu2":
-            if bot_choose_trump_second_round(cpu2) == CLUBS:
-                trump = CLUBS
-                exit = True
-            if bot_choose_trump_second_round(cpu2) == SPADES:
-                trump = SPADES
-                exit = True
-            if bot_choose_trump_second_round(cpu2) == HEARTS:
-                trump = HEARTS
-                exit = True
-            if bot_choose_trump_second_round(cpu2) == DIAMONDS:
-                trump = DIAMONDS
-                exit = True
-            else:
-                change_turn()
-        else:
-            if bot_choose_trump_second_round(cpu3) == CLUBS:
-                trump = CLUBS
-                exit = True
-            if bot_choose_trump_second_round(cpu3) == SPADES:
-                trump = SPADES
-                exit = True
-            if bot_choose_trump_second_round(cpu3) == HEARTS:
-                trump = HEARTS
-                exit = True
-            if bot_choose_trump_second_round(cpu3) == DIAMONDS:
-                trump = DIAMONDS
-                exit = True
-            else:
-                change_turn()
-    print(f"Trump is {trump}")
-    return trump
-
-
+## Choose trump for the first round
 def choose_trump_first():
     index = 0
     exit = False
@@ -340,12 +272,10 @@ def choose_trump_first():
              else:
                 print(f"You chose {suit(kitty[0])} as trump.")
                 exit = True
-                index = index + 1
         elif turn_order[0] == "cpu1":
              if bot_choose_trump_first_round(cpu1):
                 print(f"Computer 1 has chosen {suit(kitty[0])} as trump.")
                 exit = True
-                index = index + 1
              else:
                 print(f"Computer 1 has passed.")
                 change_turn()
@@ -354,7 +284,6 @@ def choose_trump_first():
             if bot_choose_trump_first_round(cpu2):
                 print(f"Computer 2 has chosen {suit(kitty[0])} as trump.")
                 exit = True
-                index = index + 1
             else:
                 print(f"Computer 2 has passed.")
                 change_turn()
@@ -363,36 +292,119 @@ def choose_trump_first():
              if bot_choose_trump_first_round(cpu3):
                 print(f"Computer 3 has chosen {suit(kitty[0])} as trump.")
                 exit = True
-                index = index + 1
              else:
                 print(f"Computer 3 has passed.")
                 change_turn()
                 index = index + 1
-    return suit(kitty[0])
-
-
-
-
-
-##Allows the player to choose trump on the second round
-def player_choose_trump_2():
-    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])})")
-    
-    if choice.lower() == "clubs":
-        if suit(kitty[0]) != CLUBS: 
-            return CLUBS
-        else:
-            player_choose_trump_2()
-    elif choice.lower() == "spades":
-        return SPADES
-    elif choice.lower() == "hearts":
-        return HEARTS
-    elif choice.lower() == "diamonds":
-        return DIAMONDS
+    if index != 4:
+        return suit(kitty[0])
     else:
-        player_choose_trump_2()
-print(player_choose_trump_2())
+        return PASS
+## Choose trump for the second round
+def choose_trump_second():
+    trump = ""
+    index = 0
+    exit = False
+    while exit == False and index < 4:
+        if turn_order[0] == "player":
+            player_choice = player_choose_trump_second_round()
+            if player_choice == CLUBS:
+                print(f"You have chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+            elif player_choice == SPADES:
+                print(f"You have chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+            elif player_choice == HEARTS:
+                print(f"You have chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+            elif player_choice == DIAMONDS:
+                print(f"You have chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+            else:
+                print("You have passed.")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu1":
+            bot_choice = bot_choose_trump_second_round(cpu1)
+            if bot_choice == CLUBS:
+                print(f"Computer 1 has chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+            elif bot_choice  == SPADES:
+                print(f"Computer 1 has chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+            elif bot_choice  == HEARTS:
+                print(f"Computer 1 has chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+            elif bot_choice  == DIAMONDS:
+                print(f"Computer 1 has chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+            else:
+                print(f"Computer 1 has passed")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu2":
+            bot_choice = bot_choose_trump_second_round(cpu2)
+            if bot_choice == CLUBS:
+                print(f"Computer 2 has chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+            elif bot_choice == SPADES:
+                print(f"Computer 2 has chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+            elif bot_choice == HEARTS:
+                print(f"Computer 2 has chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+            elif bot_choice == DIAMONDS:
+                print(f"Computer 2 has chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+            else:
+                print(f"Computer 2 has passed.")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu3":
+            bot_choice = bot_choose_trump_second_round(cpu3)
+            if bot_choice == CLUBS:
+                print(f"Computer 3 has chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+            elif bot_choice == SPADES:
+                print(f"Computer 3 has chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+            elif bot_choice == HEARTS:
+                print(f"Computer 3 has chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+            elif bot_choice == DIAMONDS:
+                print(f"Computer 3 has chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+            else:
+                print(f"Computer 3 has passed.")
+                change_turn()
+                index = index + 1
+    if trump != "":
+        return trump
+    else:
+        ##Call turn order 4 and force to give actual trump option
+        return SPADES
 
-\
+##Decide the trump suit - if not decided in the first round, runs a second round
+if choose_trump_first() != PASS:
+    trump = suit(kitty[0])
+    #trump = choose_trump_first()
+else:
+    trump = choose_trump_second()
 
 
