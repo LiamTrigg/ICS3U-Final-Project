@@ -625,18 +625,16 @@ def player_lay_card():
     
     except:
         player_lay_card()
-    
     if valid_card_choice <= len(hand_one):
         if valid_card_choice == 1 and valid_player_card(hand_one, trump, lead_suit, hand_one[0]):
             laid_cards.append(hand_one.pop(0))
-        elif valid_card_choice == 2:
+        if valid_card_choice == 2 and valid_player_card(hand_one, trump, lead_suit, hand_one[1]):
             laid_cards.append(hand_one.pop(1))
-        elif valid_card_choice == 3:
+        elif valid_card_choice == 3 and valid_player_card(hand_one, trump, lead_suit, hand_one[2]):
             laid_cards.append(hand_one.pop(2))
-        elif valid_card_choice == 4:
+        elif valid_card_choice == 4 and valid_player_card(hand_one, trump, lead_suit, hand_one[3]):
             laid_cards.append(hand_one.pop(3))
-        elif valid_card_choice == 5:
+        elif valid_card_choice == 5 and valid_player_card(hand_one, trump, lead_suit, hand_one[4]):
             laid_cards.append(hand_one.pop(4))
     else:
         player_lay_card()
-
