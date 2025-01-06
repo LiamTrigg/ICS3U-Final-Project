@@ -617,4 +617,26 @@ def player_choose_trump_1():
     else:
         player_choose_trump_1()
 
+def player_lay_card():
+    print(hand_one)
+    card_choice = input(f"Which card would you like to play?")
+    try:
+        valid_card_choice = int(card_choice)
+    
+    except:
+        player_lay_card()
+    
+    if valid_card_choice <= len(hand_one):
+        if valid_card_choice == 1:
+            laid_cards.append(hand_one.pop(0))
+        elif valid_card_choice == 2:
+            laid_cards.append(hand_one.pop(1))
+        elif valid_card_choice == 3:
+            laid_cards.append(hand_one.pop(2))
+        elif valid_card_choice == 4:
+            laid_cards.append(hand_one.pop(3))
+        elif valid_card_choice == 5:
+            laid_cards.append(hand_one.pop(4))
+    else:
+        player_lay_card()
 
