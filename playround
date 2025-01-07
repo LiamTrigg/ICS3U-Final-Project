@@ -512,33 +512,39 @@ def bot_choose_card_to_lead(hand, trump):
 
 def play_round():
     if turn_order[0] == "player":
-        player_lay_card()
+        print(f"You played {player_lay_card()}")
+        laid_cards.append(player_lay_card())
         change_turn()
     elif turn_order[0] == "cpu1":
-        bot_choose_card_to_lead(cpu1, trump)
+        laid_cards.append(bot_choose_card_to_lead(cpu1, trump))
         change_turn()
     elif turn_order[0] == "cpu2":
-        bot_choose_card_to_lead(cpu2, trump)
+        laid_cards.append(bot_choose_card_to_lead(cpu2, trump))
         change_turn()
     else:
-        bot_choose_card_to_lead(cpu3, trump)
+        laid_cards.append(bot_choose_card_to_lead(cpu3, trump))
         change_turn()
 
     count = 0
     while count < 3:
         if turn_order[0] == "player":
-            player_lay_card()
+            laid_cards.append(player_lay_card())
             change_turn()
         elif turn_order[0] == "cpu1":
-            bot_choose_card_to_lay(cpu1, trump, lead)
+            print(f"Computer 1 played {bot_choose_card_to_lay(cpu1, trump, lead)}")
+            laid_cards.append(bot_choose_card_to_lay(cpu1, trump, lead))
             change_turn()
 
         elif turn_order[0] == "cpu2":
-            bot_choose_card_to_lay(cpu1, trump, lead)
+
+            laid_cards.append(bot_choose_card_to_lay(cpu2, trump, lead))
             change_turn()
         else:
-            bot_choose_card_to_lay(cpu1, trump, lead)
+
+            laid_cards.append(bot_choose_card_to_lay(cpu3, trump, lead))
             change_turn()
         count = count + 1
+
 play_round()
 print(laid_cards)
+play_round()
