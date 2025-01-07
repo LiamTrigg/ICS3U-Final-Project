@@ -126,12 +126,419 @@ def highest_card(laid_round, trump, lead):
             largest_card = largest_card
     return CLUBS_TRUMP_ORDER[largest_card]
 
-def player_lay():
-    input("What card would you like to play?")
 
-
-
-def play_round:
-    if turn_order[0] == "player":
-
+## check for valid play from player if clubs laid (follow suit) - Marika
+def player_follow_suit_clubs (hand, trump, card):
+    if trump == CLUBS:
+        if card in DECK_CLUBS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == SPADES:
+        if card in DECK_CLUBS_SPADES_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS_SPADES_TRUMP:
+                    return False
+                index = index + 1
+            return True
     else:
+        if card in DECK_CLUBS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS:
+                    return False
+                index = index + 1
+            return True
+
+## check for valid play from player if spades laid (follow suit) - Marika
+def player_follow_suit_spades (hand, trump, card):
+    if trump == SPADES:
+        if card in DECK_SPADES_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == CLUBS:
+        if card in DECK_SPADES_CLUBS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES_CLUBS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_SPADES:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES:
+                    return False
+                index = index + 1
+            return True
+
+## check for valid play from player if hearts laid (follow suit) - Marika
+def player_follow_suit_hearts (hand, trump, card):
+    if trump == HEARTS:
+        if card in DECK_HEARTS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == DIAMONDS:
+        if card in DECK_HEARTS_DIAMONDS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS_DIAMONDS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_HEARTS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS:
+                    return False
+                index = index + 1
+            return True
+
+## check for valid play from player if diamonds laid (follow suit) - Marika
+def player_follow_suit_diamonds (hand, trump, card):
+    if trump == DIAMONDS:
+        if card in DECK_DIAMONDS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == SPADES:
+        if card in DECK_DIAMONDS_HEARTS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS_HEARTS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_DIAMONDS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS:
+                    return False
+                index = index + 1
+            return True
+
+## check if player can lay card chosen or must follow suit - Marika
+def valid_player_card (hand, trump, lead, card):
+    if lead == CLUBS:
+        return player_follow_suit_clubs(hand, trump, card)
+    if lead == SPADES:
+        return player_follow_suit_spades(hand, trump, card)
+    if lead == HEARTS:
+        return player_follow_suit_hearts(hand, trump, card)
+    if lead == DIAMONDS:
+        return player_follow_suit_diamonds(hand, trump, card)
+
+def player_lay_card():
+    print(player)
+    card_choice = input(f"Which card would you like to play? ")
+    try:
+        valid_card_choice = int(card_choice)
+
+    except:
+        player_lay_card()
+    if valid_card_choice <= len(player):
+        if valid_card_choice == 1 and valid_player_card(player, trump, lead, player[0]):
+            laid_cards.append(player.pop(0))
+        if valid_card_choice == 2 and valid_player_card(player, trump, lead, player[1]):
+            laid_cards.append(player.pop(1))
+        elif valid_card_choice == 3 and valid_player_card(player, trump, lead, player[2]):
+            laid_cards.append(player.pop(2))
+        elif valid_card_choice == 4 and valid_player_card(player, trump, lead, player[3]):
+            laid_cards.append(player.pop(3))
+        elif valid_card_choice == 5 and valid_player_card(player, trump, lead_suit, player[4]):
+            laid_cards.append(player.pop(4))
+    else:
+        player_lay_card()
+
+## find lowest card in hand of any suit, including trump decks - Marika
+def lowest_card_in_hand (hand, suit_deck):
+    index = len(suit_deck) - 1
+    while index >= 0:
+        if suit_deck[index] in hand:
+            return suit_deck[index]
+        else:
+            index = index - 1
+    return False
+
+## find highest card in hand of any suit, including trump decks - Marika
+def highest_card_in_hand (hand, suit_deck):
+    index = 0
+    while index < len(suit_deck):
+        if suit_deck[index] in hand:
+            return suit_deck[index]
+        else:
+            index = index + 1
+    return False
+
+## find a card of a certain number in hand - Marika
+def number_card_in_hand (hand, number_deck):
+    index = 0
+    while index < len(number_deck):
+        if number_deck[index] in hand:
+            return number_deck[index]
+        else:
+            index = index + 1
+    return False
+
+## determine what card a bot should play if clubs is trump and they have to follow suit - Marika
+def bot_card_clubs_trump (hand, lead):
+    if lead == CLUBS:
+        if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
+    elif lead == HEARTS:
+        if highest_card_in_hand(hand, DECK_HEARTS) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS)
+    if highest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    else:
+        return False
+
+## determine what card a bot should play if spades is trump and they have to follow suit - Marika
+def bot_card_spades_trump (hand, lead):
+    if lead == SPADES:
+        if lowest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP)
+    elif lead == HEARTS:
+        if highest_card_in_hand(hand, DECK_HEARTS) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS)
+    if highest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    else:
+        return False
+
+## determine what card a bot should play if hearts is trump and they have to follow suit - Marika
+def bot_card_hearts_trump (hand, lead):
+    if lead == HEARTS:
+        if lowest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand,DECK_DIAMONDS_HEARTS_TRUMP) != False:
+                return highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES) != False:
+            return highest_card_in_hand(hand, DECK_SPADES)
+    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    else:
+        return False
+
+## determine what card a bot should play if diamonds is trump and they have to follow suit - Marika
+def bot_card_diamonds_trump (hand, lead):
+    if lead == DIAMONDS:
+        if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES) != False:
+            return highest_card_in_hand(hand, DECK_SPADES)
+    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    else:
+        return False
+
+## if the bot doesn't have to follow suit and cannot trump, lay their lowest offsuit card - Marika
+def bot_lay_offsuit_card (hand):
+    if number_card_in_hand(hand, DECK_NINE) != False:
+        return number_card_in_hand(hand, DECK_NINE)
+    elif number_card_in_hand(hand, DECK_TEN) != False:
+        return number_card_in_hand(hand, DECK_TEN)
+    elif number_card_in_hand(hand, DECK_JACK) != False:
+        return number_card_in_hand(hand, DECK_JACK)
+    elif number_card_in_hand(hand, DECK_QUEEN) != False:
+        return number_card_in_hand(hand, DECK_QUEEN)
+    elif number_card_in_hand(hand, DECK_KING) != False:
+        return number_card_in_hand(hand, DECK_KING)
+    else:
+        return number_card_in_hand(hand, DECK_ACE)
+
+## bot card to lay when they don't lead - Marika
+def bot_choose_card_to_lay (hand, trump, lead):
+    if trump == CLUBS:
+        if bot_card_clubs_trump(hand, lead) != False:
+            return bot_card_clubs_trump(hand, lead)
+    if trump == SPADES:
+        if bot_card_spades_trump(hand, lead) != False:
+            return bot_card_spades_trump(hand, lead)
+    if trump == HEARTS:
+        if bot_card_hearts_trump(hand, lead) != False:
+            return bot_card_hearts_trump(hand, lead)
+    if trump == DIAMONDS:
+        if bot_card_diamonds_trump(hand, lead) != False:
+            return bot_card_diamonds_trump
+    return bot_lay_offsuit_card(hand)
+
+## determine if the bot has the right bower in hand - Marika
+def bot_lead_right(hand, trump):
+    if trump == CLUBS:
+        if DECK_CLUBS_TRUMP[0] in hand:
+            return DECK_CLUBS_TRUMP[0]
+    elif trump == SPADES:
+        if DECK_SPADES_TRUMP[0] in hand:
+            return DECK_SPADES_TRUMP[0]
+    elif trump == HEARTS:
+        if DECK_HEARTS_TRUMP[0] in hand:
+            return DECK_HEARTS_TRUMP[0]
+    elif trump == DIAMONDS:
+        if DECK_DIAMONDS_TRUMP[0] in hand:
+            return DECK_DIAMONDS_TRUMP[0]
+    return False
+
+## determine what the highest trump not played is and if it's in hand - Marika
+def bot_lead_highest_trump_in_play(hand, trump, discard):
+    if trump == CLUBS:
+        highest_trump = highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+        index = 0
+        while DECK_CLUBS_TRUMP[index] != highest_trump:
+            if DECK_CLUBS_TRUMP[index] in discard:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+    if trump == SPADES:
+        highest_trump = highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+        index = 0
+        while DECK_SPADES_TRUMP[index] != highest_trump:
+            if DECK_SPADES_TRUMP[index] in discard:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+    if trump == HEARTS:
+        highest_trump = highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+        index = 0
+        while DECK_HEARTS_TRUMP[index] != highest_trump:
+            if DECK_HEARTS_TRUMP[index] in discard:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+    if trump == DIAMONDS:
+        highest_trump = highest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
+        index = 0
+        while DECK_DIAMONDS_TRUMP[index] != highest_trump:
+            if DECK_DIAMONDS_TRUMP[index] in discard:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+
+## determine if the bot has an offsuit ace in hand - Marika
+def bot_lead_offsuit_ace(hand, trump):
+    index = 0
+    while index < 4:
+        card = DECK_ACE[index]
+        if (card in hand) and (trump_check(card, trump) != True):
+            return DECK_ACE[index]
+        index = index + 1
+    return False
+
+## bot card to lay when leading - Marika
+def bot_choose_card_to_lead(hand, trump):
+    if bot_lead_right(hand, trump) != False:
+        return bot_lead_right(hand, trump)
+    elif bot_lead_highest_trump_in_play(hand, trump, laid_cards) != False:
+        return bot_lead_highest_trump_in_play(hand, trump, laid_cards)
+    elif bot_lead_offsuit_ace(hand, trump) != False:
+        return bot_lead_offsuit_ace(hand, trump)
+    else:
+        card = bot_lay_offsuit_card(hand)
+        while trump_check(card, trump) == True:
+            hand.remove(card)
+            card = bot_lay_offsuit_card(hand)
+        return card
+
+
+def play_round():
+    if turn_order[0] == "player":
+        player_lay_card()
+        change_turn()
+    elif turn_order[0] == "cpu1":
+        bot_choose_card_to_lead(cpu1, trump)
+        change_turn()
+    elif turn_order[0] == "cpu2":
+        bot_choose_card_to_lead(cpu2, trump)
+        change_turn()
+    else:
+        bot_choose_card_to_lead(cpu3, trump)
+        change_turn()
+
+    count = 0
+    while count < 3:
+        if turn_order[0] == "player":
+            player_lay_card()
+            change_turn()
+        elif turn_order[0] == "cpu1":
+            bot_choose_card_to_lay(cpu1, trump, lead)
+            change_turn()
+
+        elif turn_order[0] == "cpu2":
+            bot_choose_card_to_lay(cpu1, trump, lead)
+            change_turn()
+        else:
+            bot_choose_card_to_lay(cpu1, trump, lead)
+            change_turn()
+        count = count + 1
+play_round()
+print(laid_cards)
