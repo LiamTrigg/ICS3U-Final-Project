@@ -276,22 +276,60 @@ def player_lay_card():
     try:
         valid_card_choice = int(card_choice)
 
+        if valid_card_choice <= len(player):
+            if valid_card_choice == 1 and valid_player_card(player, trump, lead, player[0]):
+                print(f"You played {player[0]}")
+                laid_cards.append(player.pop(0))
+            elif valid_card_choice == 2 and valid_player_card(player, trump, lead, player[1]):
+                print(f"You played {player[1]}")
+                laid_cards.append(player.pop(1))
+            elif valid_card_choice == 3 and valid_player_card(player, trump, lead, player[2]):
+                print(f"You played {player[2]}")
+                laid_cards.append(player.pop(2))
+            elif valid_card_choice == 4 and valid_player_card(player, trump, lead, player[3]):
+                print(f"You played {player[3]}")
+                laid_cards.append(player.pop(3))
+            elif valid_card_choice == 5 and valid_player_card(player, trump, lead, player[4]):
+                print(f"You played {player[4]}")
+                laid_cards.append(player.pop(4))
+            else:
+                print(f"You must follow suit with {lead}")
+                player_lay_card()
+        else:
+            print("You can not play that.")
+            player_lay_card()
     except:
         player_lay_card()
-    if valid_card_choice <= len(player):
-        if valid_card_choice == 1 and valid_player_card(player, trump, lead, player[0]):
-            laid_cards.append(player.pop(0))
-        if valid_card_choice == 2 and valid_player_card(player, trump, lead, player[1]):
-            laid_cards.append(player.pop(1))
-        elif valid_card_choice == 3 and valid_player_card(player, trump, lead, player[2]):
-            laid_cards.append(player.pop(2))
-        elif valid_card_choice == 4 and valid_player_card(player, trump, lead, player[3]):
-            laid_cards.append(player.pop(3))
-        elif valid_card_choice == 5 and valid_player_card(player, trump, lead_suit, player[4]):
-            laid_cards.append(player.pop(4))
-    else:
-        player_lay_card()
+        
+def player_lead_card():
+    print(player)
+    card_choice = input(f"Which card would you like to play? ")
+    try:
+        valid_card_choice = int(card_choice)
 
+        if valid_card_choice <= len(player):
+            if valid_card_choice == 1:
+                print(f"You played {player[0]}")
+                laid_cards.append(player.pop(0))
+            elif valid_card_choice == 2:
+                print(f"You played {player[1]}")
+                laid_cards.append(player.pop(1))
+            elif valid_card_choice == 3:
+                print(f"You played {player[2]}")
+                laid_cards.append(player.pop(2))
+            elif valid_card_choice == 4:
+                print(f"You played {player[3]}")
+                laid_cards.append(player.pop(3))
+            else:
+                print(f"You played {player[4]}")
+                laid_cards.append(player.pop(4))
+        else:
+            print("You can not play that.")
+            player_lead_card()
+    except:
+        player_lead_card()
+        
+        
 ## find lowest card in hand of any suit, including trump decks - Marika
 def lowest_card_in_hand (hand, suit_deck):
     index = len(suit_deck) - 1
@@ -509,21 +547,19 @@ def bot_choose_card_to_lead(hand, trump):
             card = bot_lay_offsuit_card(hand)
         return card
 
-
+## Intial turn and deal order
+turn_order = ["player", "cpu1", "cpu2", "cpu3"]
+deal_order = ["player", "comp1", "comp2", "comp3"]
 def play_round():
     if turn_order[0] == "player":
-        print(f"You played {player_lay_card()}")
-        laid_cards.append(player_lay_card())
-        change_turn()
+        player_lead_card()
     elif turn_order[0] == "cpu1":
         laid_cards.append(bot_choose_card_to_lead(cpu1, trump))
-        change_turn()
     elif turn_order[0] == "cpu2":
         laid_cards.append(bot_choose_card_to_lead(cpu2, trump))
-        change_turn()
     else:
         laid_cards.append(bot_choose_card_to_lead(cpu3, trump))
-        change_turn()
+    change_turn()
 
     count = 0
     while count < 3:
@@ -536,15 +572,14 @@ def play_round():
             change_turn()
 
         elif turn_order[0] == "cpu2":
-
+            print(f"Computer 2 played {bot_choose_card_to_lay(cpu2, trump, lead)}")
             laid_cards.append(bot_choose_card_to_lay(cpu2, trump, lead))
             change_turn()
         else:
-
+            print(f"Computer 3 played {bot_choose_card_to_lay(cpu3, trump, lead)}")
             laid_cards.append(bot_choose_card_to_lay(cpu3, trump, lead))
             change_turn()
         count = count + 1
 
 play_round()
 print(laid_cards)
-play_round()
