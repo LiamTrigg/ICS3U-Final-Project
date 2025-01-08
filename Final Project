@@ -54,6 +54,7 @@ hand_two = shuffled_deck[5:10]
 hand_three = shuffled_deck[10:15]
 hand_four = shuffled_deck[15:20]
 kitty = shuffled_deck[20:]
+all_laid_cards = []
 laid_cards = []
 
 ## determine if a hand is a farmer's hand - Marika
@@ -401,12 +402,12 @@ def bot_lead_right(hand, trump):
     return False
 
 ## determine what the highest trump not played is and if it's in hand - Marika
-def bot_lead_highest_trump_in_play(hand, trump, discard):
+def bot_lead_highest_trump_in_play(hand, trump):
     if trump == CLUBS:
         highest_trump = highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
         index = 0
         while DECK_CLUBS_TRUMP[index] != highest_trump:
-            if DECK_CLUBS_TRUMP[index] in discard:
+            if DECK_CLUBS_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -415,7 +416,7 @@ def bot_lead_highest_trump_in_play(hand, trump, discard):
         highest_trump = highest_card_in_hand(hand, DECK_SPADES_TRUMP)
         index = 0
         while DECK_SPADES_TRUMP[index] != highest_trump:
-            if DECK_SPADES_TRUMP[index] in discard:
+            if DECK_SPADES_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -424,7 +425,7 @@ def bot_lead_highest_trump_in_play(hand, trump, discard):
         highest_trump = highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
         index = 0
         while DECK_HEARTS_TRUMP[index] != highest_trump:
-            if DECK_HEARTS_TRUMP[index] in discard:
+            if DECK_HEARTS_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -433,7 +434,7 @@ def bot_lead_highest_trump_in_play(hand, trump, discard):
         highest_trump = highest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
         index = 0
         while DECK_DIAMONDS_TRUMP[index] != highest_trump:
-            if DECK_DIAMONDS_TRUMP[index] in discard:
+            if DECK_DIAMONDS_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
