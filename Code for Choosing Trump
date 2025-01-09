@@ -1,4 +1,4 @@
-##Play a round of Euchre
+##Determine trump for a hand of euchre
 ##Import modules necessary for the game
 import random
 import curses
