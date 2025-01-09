@@ -454,7 +454,7 @@ def bot_lead_offsuit_ace(hand, trump):
 def bot_choose_card_to_lead(hand, trump):
     if bot_lead_right(hand, trump) != False:
         return bot_lead_right(hand, trump)
-    elif bot_lead_highest_trump_in_play(hand, trump, laid_cards) != False:
+    elif bot_lead_highest_trump_in_play(hand, trump) != False:
         return bot_lead_highest_trump_in_play(hand, trump)
     elif bot_lead_offsuit_ace(hand, trump) != False:
         return bot_lead_offsuit_ace(hand, trump)
