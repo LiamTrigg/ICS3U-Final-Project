@@ -5,10 +5,13 @@ SPADES = "\u2660"
 HEARTS = "\u2665"
 DIAMONDS = "\u2666"
 trump = CLUBS
-lead = CLUBS
+lead = ""
 
 ## full deck
-DECK = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+DECK = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K",
+        f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J",
+        f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10",
+        f"{DIAMONDS}9"]
 ## list of aces
 DECK_ACE = [f"{CLUBS}A", f"{SPADES}A", f"{HEARTS}A", f"{DIAMONDS}A"]
 ## list of kings
@@ -34,9 +37,11 @@ DECK_CLUBS_TRUMP = [f"{CLUBS}J", f"{SPADES}J", f"{CLUBS}A", f"{CLUBS}K", f"{CLUB
 ## order of trump when spades is trump
 DECK_SPADES_TRUMP = [f"{SPADES}J", f"{CLUBS}J", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9"]
 ## order of trump when hearts is trump
-DECK_HEARTS_TRUMP = [f"{HEARTS}J", f"{DIAMONDS}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
+DECK_HEARTS_TRUMP = [f"{HEARTS}J", f"{DIAMONDS}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10",
+                     f"{HEARTS}9"]
 ## order of trump when diamonds is trump
-DECK_DIAMONDS_TRUMP = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+DECK_DIAMONDS_TRUMP = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10",
+                       f"{DIAMONDS}9"]
 ## list of clubs when spades is trump (no jack)
 DECK_CLUBS_SPADES_TRUMP = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9"]
 ## list of spades when clubs is trump (no jack)
@@ -45,10 +50,22 @@ DECK_SPADES_CLUBS_TRUMP = [f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}1
 DECK_HEARTS_DIAMONDS_TRUMP = [f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
 ## list of diamonds when hearts is trump (no jack)
 DECK_DIAMONDS_HEARTS_TRUMP = [f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9"]
-CLUBS_TRUMP_ORDER = [f"{CLUBS}J", f"{SPADES}J", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
-SPADES_TRUMP_ORDER = [f"{SPADES}J", f"{CLUBS}J", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
-HEARTS_TRUMP_ORDER = [f"{HEARTS}J", f"{SPADES}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
-DIAMONDS_TRUMP_ORDER = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
+CLUBS_TRUMP_ORDER = [f"{CLUBS}J", f"{SPADES}J", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9",
+                     f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K",
+                     f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
+                     f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9", None]
+SPADES_TRUMP_ORDER = [f"{SPADES}J", f"{CLUBS}J", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9",
+                      f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9", f"{HEARTS}A", f"{HEARTS}K",
+                      f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
+                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9", None]
+HEARTS_TRUMP_ORDER = [f"{HEARTS}J", f"{SPADES}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9",
+                      f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A",
+                      f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
+                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9", None]
+DIAMONDS_TRUMP_ORDER = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10",
+                        f"{DIAMONDS}9", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9",
+                        f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9",
+                        f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9", None]
 
 ##Set up decks
 ## Set up shuffled deck
@@ -63,15 +80,15 @@ kitty = shuffled_deck[20:]
 all_laid_cards = []
 laid_cards = []
 
-## Intial turn and deal order
-turn_order = ["player", "cpu1", "cpu2", "cpu3"]
-deal_order = ["player", "comp1", "comp2", "comp3"]
-
 ##Used to update the turn and deal counters
 def change_turn():
     turn_order.insert(3, turn_order.pop(0))
+
+
 def change_deal():
     deal_order.insert(3, deal_order.pop(0))
+
+
 def suit(card, trump):
     ## If card is not a jack
     if card not in DECK_JACK:
@@ -109,9 +126,21 @@ def suit(card, trump):
                 return HEARTS
             else:
                 return DIAMONDS
-def highest_card(laid_round, trump, lead):
+
+## determine if a card is trump - Marika
+def trump_check(card, trump):
+    if trump == CLUBS:
+        return card in DECK_CLUBS_TRUMP
+    elif trump == SPADES:
+        return card in DECK_SPADES_TRUMP
+    elif trump == HEARTS:
+        return card in DECK_HEARTS_TRUMP
+    else:
+        return card in DECK_DIAMONDS_TRUMP
+
+def highest_card(trump, lead):
     largest_card = 25
-    for cards in laid_round:
+    for cards in laid_cards:
         if suit(cards, trump) == trump or suit(cards, trump) == lead:
             if trump == CLUBS:
                 value = CLUBS_TRUMP_ORDER.index(cards)
@@ -129,7 +158,7 @@ def highest_card(laid_round, trump, lead):
 
 
 ## check for valid play from player if clubs laid (follow suit) - Marika
-def player_follow_suit_clubs (hand, trump, card):
+def player_follow_suit_clubs(hand, trump, card):
     if trump == CLUBS:
         if card in DECK_CLUBS_TRUMP:
             return True
@@ -161,8 +190,9 @@ def player_follow_suit_clubs (hand, trump, card):
                 index = index + 1
             return True
 
+
 ## check for valid play from player if spades laid (follow suit) - Marika
-def player_follow_suit_spades (hand, trump, card):
+def player_follow_suit_spades(hand, trump, card):
     if trump == SPADES:
         if card in DECK_SPADES_TRUMP:
             return True
@@ -194,8 +224,9 @@ def player_follow_suit_spades (hand, trump, card):
                 index = index + 1
             return True
 
+
 ## check for valid play from player if hearts laid (follow suit) - Marika
-def player_follow_suit_hearts (hand, trump, card):
+def player_follow_suit_hearts(hand, trump, card):
     if trump == HEARTS:
         if card in DECK_HEARTS_TRUMP:
             return True
@@ -227,8 +258,9 @@ def player_follow_suit_hearts (hand, trump, card):
                 index = index + 1
             return True
 
+
 ## check for valid play from player if diamonds laid (follow suit) - Marika
-def player_follow_suit_diamonds (hand, trump, card):
+def player_follow_suit_diamonds(hand, trump, card):
     if trump == DIAMONDS:
         if card in DECK_DIAMONDS_TRUMP:
             return True
@@ -260,8 +292,9 @@ def player_follow_suit_diamonds (hand, trump, card):
                 index = index + 1
             return True
 
+
 ## check if player can lay card chosen or must follow suit - Marika
-def valid_player_card (hand, trump, lead, card):
+def valid_player_card(hand, trump, lead, card):
     if lead == CLUBS:
         return player_follow_suit_clubs(hand, trump, card)
     if lead == SPADES:
@@ -271,7 +304,8 @@ def valid_player_card (hand, trump, lead, card):
     if lead == DIAMONDS:
         return player_follow_suit_diamonds(hand, trump, card)
 
-def player_lay_card():
+
+def player_lay_card(lead):
     print(player)
     card_choice = input(f"Which card would you like to play? ")
     try:
@@ -295,16 +329,17 @@ def player_lay_card():
                 laid_cards.append(player.pop(4))
             else:
                 print(f"You must follow suit with {lead}")
-                player_lay_card()
+                player_lay_card(lead)
         else:
             print("You can not play that.")
-            player_lay_card()
+            player_lay_card(lead)
     except:
-        player_lay_card()
-        
+        player_lay_card(lead)
+
+
 def player_lead_card():
     print(player)
-    card_choice = input(f"Which card would you like to play? ")
+    card_choice = input(f"Which card would you like to lead? ")
     try:
         valid_card_choice = int(card_choice)
 
@@ -329,10 +364,10 @@ def player_lead_card():
             player_lead_card()
     except:
         player_lead_card()
-        
-        
+
+
 ## find lowest card in hand of any suit, including trump decks - Marika
-def lowest_card_in_hand (hand, suit_deck):
+def lowest_card_in_hand(hand, suit_deck):
     index = len(suit_deck) - 1
     while index >= 0:
         if suit_deck[index] in hand:
@@ -341,8 +376,9 @@ def lowest_card_in_hand (hand, suit_deck):
             index = index - 1
     return False
 
+
 ## find highest card in hand of any suit, including trump decks - Marika
-def highest_card_in_hand (hand, suit_deck):
+def highest_card_in_hand(hand, suit_deck):
     index = 0
     while index < len(suit_deck):
         if suit_deck[index] in hand:
@@ -351,8 +387,9 @@ def highest_card_in_hand (hand, suit_deck):
             index = index + 1
     return False
 
+
 ## find a card of a certain number in hand - Marika
-def number_card_in_hand (hand, number_deck):
+def number_card_in_hand(hand, number_deck):
     index = 0
     while index < len(number_deck):
         if number_deck[index] in hand:
@@ -361,8 +398,9 @@ def number_card_in_hand (hand, number_deck):
             index = index + 1
     return False
 
+
 ## determine what card a bot should play if clubs is trump and they have to follow suit - Marika
-def bot_card_clubs_trump (hand, lead):
+def bot_card_clubs_trump(hand, lead):
     if lead == CLUBS:
         if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
@@ -380,8 +418,9 @@ def bot_card_clubs_trump (hand, lead):
     else:
         return False
 
+
 ## determine what card a bot should play if spades is trump and they have to follow suit - Marika
-def bot_card_spades_trump (hand, lead):
+def bot_card_spades_trump(hand, lead):
     if lead == SPADES:
         if lowest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_SPADES_TRUMP)
@@ -395,18 +434,19 @@ def bot_card_spades_trump (hand, lead):
         if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
             return highest_card_in_hand(hand, DECK_DIAMONDS)
     if highest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
-            return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+        return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
     else:
         return False
 
+
 ## determine what card a bot should play if hearts is trump and they have to follow suit - Marika
-def bot_card_hearts_trump (hand, lead):
+def bot_card_hearts_trump(hand, lead):
     if lead == HEARTS:
         if lowest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_HEARTS_TRUMP)
     elif lead == DIAMONDS:
-        if highest_card_in_hand(hand,DECK_DIAMONDS_HEARTS_TRUMP) != False:
-                return highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP)
+        if highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP)
     elif lead == CLUBS:
         if highest_card_in_hand(hand, DECK_CLUBS) != False:
             return highest_card_in_hand(hand, DECK_CLUBS)
@@ -418,8 +458,9 @@ def bot_card_hearts_trump (hand, lead):
     else:
         return False
 
+
 ## determine what card a bot should play if diamonds is trump and they have to follow suit - Marika
-def bot_card_diamonds_trump (hand, lead):
+def bot_card_diamonds_trump(hand, lead):
     if lead == DIAMONDS:
         if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
@@ -437,8 +478,9 @@ def bot_card_diamonds_trump (hand, lead):
     else:
         return False
 
+
 ## if the bot doesn't have to follow suit and cannot trump, lay their lowest offsuit card - Marika
-def bot_lay_offsuit_card (hand):
+def bot_lay_offsuit_card(hand):
     if number_card_in_hand(hand, DECK_NINE) != False:
         return number_card_in_hand(hand, DECK_NINE)
     elif number_card_in_hand(hand, DECK_TEN) != False:
@@ -452,8 +494,9 @@ def bot_lay_offsuit_card (hand):
     else:
         return number_card_in_hand(hand, DECK_ACE)
 
+
 ## bot card to lay when they don't lead - Marika
-def bot_choose_card_to_lay (hand, trump, lead):
+def bot_choose_card_to_lay(hand, trump, lead):
     if trump == CLUBS:
         if bot_card_clubs_trump(hand, lead) != False:
             return bot_card_clubs_trump(hand, lead)
@@ -467,6 +510,7 @@ def bot_choose_card_to_lay (hand, trump, lead):
         if bot_card_diamonds_trump(hand, lead) != False:
             return bot_card_diamonds_trump
     return bot_lay_offsuit_card(hand)
+
 
 ## determine if the bot has the right bower in hand - Marika
 def bot_lead_right(hand, trump):
@@ -483,6 +527,7 @@ def bot_lead_right(hand, trump):
         if DECK_DIAMONDS_TRUMP[0] in hand:
             return DECK_DIAMONDS_TRUMP[0]
     return False
+
 
 ## determine what the highest trump not played is and if it's in hand - Marika
 def bot_lead_highest_trump_in_play(hand, trump):
@@ -523,6 +568,7 @@ def bot_lead_highest_trump_in_play(hand, trump):
                 return False
         return highest_trump
 
+
 ## determine if the bot has an offsuit ace in hand - Marika
 def bot_lead_offsuit_ace(hand, trump):
     index = 0
@@ -533,11 +579,12 @@ def bot_lead_offsuit_ace(hand, trump):
         index = index + 1
     return False
 
+
 ## bot card to lay when leading - Marika
 def bot_choose_card_to_lead(hand, trump):
     if bot_lead_right(hand, trump) != False:
         return bot_lead_right(hand, trump)
-    elif bot_lead_highest_trump_in_play(hand, trump, laid_cards) != False:
+    elif bot_lead_highest_trump_in_play(hand, trump) != False:
         return bot_lead_highest_trump_in_play(hand, trump)
     elif bot_lead_offsuit_ace(hand, trump) != False:
         return bot_lead_offsuit_ace(hand, trump)
@@ -548,39 +595,55 @@ def bot_choose_card_to_lead(hand, trump):
             card = bot_lay_offsuit_card(hand)
         return card
 
+
 ## Intial turn and deal order
 turn_order = ["player", "cpu1", "cpu2", "cpu3"]
 deal_order = ["player", "comp1", "comp2", "comp3"]
+
+
 def play_round():
     if turn_order[0] == "player":
-        player_lead_card()
+        player_card = player_lead_card()
     elif turn_order[0] == "cpu1":
-        laid_cards.append(bot_choose_card_to_lead(cpu1, trump))
+        cpu1_card = bot_choose_card_to_lead(cpu1, trump)
+        laid_cards.append(cpu1_card)
+        print(f"Computer 1 lead {bot_choose_card_to_lead(cpu1, trump)}")
     elif turn_order[0] == "cpu2":
-        laid_cards.append(bot_choose_card_to_lead(cpu2, trump))
+        cpu2_card = bot_choose_card_to_lead(cpu2, trump)
+        laid_cards.append(cpu2_card)
+        print(f"Computer 2 lead {bot_choose_card_to_lead(cpu2, trump)}")
     else:
-        laid_cards.append(bot_choose_card_to_lead(cpu3, trump))
+        cpu3_card = bot_choose_card_to_lead(cpu3, trump)
+        laid_cards.append(cpu3_card)
+        print(f"Computer 3 lead {bot_choose_card_to_lead(cpu3, trump)}")
     change_turn()
-
+    lead = suit(laid_cards[0], trump)
     count = 0
     while count < 3:
         if turn_order[0] == "player":
-            laid_cards.append(player_lay_card())
+            player_card = player_lay_card(lead)
+            laid_cards.append(player_card)
             change_turn()
         elif turn_order[0] == "cpu1":
-            print(f"Computer 1 played {bot_choose_card_to_lay(cpu1, trump, lead)}")
-            laid_cards.append(bot_choose_card_to_lay(cpu1, trump, lead))
+            cpu1_card = bot_choose_card_to_lay(cpu1, trump, lead)
+            print(f"Computer 1 played {cpu1_card}")
+            laid_cards.append(cpu1_card)
             change_turn()
 
         elif turn_order[0] == "cpu2":
-            print(f"Computer 2 played {bot_choose_card_to_lay(cpu2, trump, lead)}")
-            laid_cards.append(bot_choose_card_to_lay(cpu2, trump, lead))
+            cpu2_card = bot_choose_card_to_lay(cpu2, trump, lead)
+            print(f"Computer 2 played {cpu2_card}")
+            laid_cards.append(cpu2_card)
             change_turn()
         else:
-            print(f"Computer 3 played {bot_choose_card_to_lay(cpu3, trump, lead)}")
-            laid_cards.append(bot_choose_card_to_lay(cpu3, trump, lead))
+            cpu3_card = bot_choose_card_to_lay(cpu3, trump, lead)
+            print(f"Computer 3 played {cpu3_card}")
+            laid_cards.append(cpu3_card)
             change_turn()
         count = count + 1
+    print(highest_card(trump, lead))
 
+
+change_turn()
 play_round()
 print(laid_cards)
