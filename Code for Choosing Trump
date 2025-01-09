@@ -62,6 +62,7 @@ cpu1 = shuffled_deck[5:10]
 cpu2 = shuffled_deck[10:15]
 cpu3 = shuffled_deck[15:20]
 kitty = shuffled_deck[20:]
+all_laid_cards = []
 laid_cards = []
 
 ## Intial turn and deal order
