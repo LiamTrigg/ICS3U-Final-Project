@@ -60,6 +60,7 @@ cpu1 = shuffled_deck[5:10]
 cpu2 = shuffled_deck[10:15]
 cpu3 = shuffled_deck[15:20]
 kitty = shuffled_deck[20:]
+all_laid_cards = []
 laid_cards = []
 
 ## Intial turn and deal order
@@ -484,12 +485,12 @@ def bot_lead_right(hand, trump):
     return False
 
 ## determine what the highest trump not played is and if it's in hand - Marika
-def bot_lead_highest_trump_in_play(hand, trump, discard):
+def bot_lead_highest_trump_in_play(hand, trump):
     if trump == CLUBS:
         highest_trump = highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
         index = 0
         while DECK_CLUBS_TRUMP[index] != highest_trump:
-            if DECK_CLUBS_TRUMP[index] in discard:
+            if DECK_CLUBS_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -498,7 +499,7 @@ def bot_lead_highest_trump_in_play(hand, trump, discard):
         highest_trump = highest_card_in_hand(hand, DECK_SPADES_TRUMP)
         index = 0
         while DECK_SPADES_TRUMP[index] != highest_trump:
-            if DECK_SPADES_TRUMP[index] in discard:
+            if DECK_SPADES_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -507,7 +508,7 @@ def bot_lead_highest_trump_in_play(hand, trump, discard):
         highest_trump = highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
         index = 0
         while DECK_HEARTS_TRUMP[index] != highest_trump:
-            if DECK_HEARTS_TRUMP[index] in discard:
+            if DECK_HEARTS_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -516,7 +517,7 @@ def bot_lead_highest_trump_in_play(hand, trump, discard):
         highest_trump = highest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
         index = 0
         while DECK_DIAMONDS_TRUMP[index] != highest_trump:
-            if DECK_DIAMONDS_TRUMP[index] in discard:
+            if DECK_DIAMONDS_TRUMP[index] in all_laid_cards:
                 index = index + 1
             else:
                 return False
@@ -537,7 +538,7 @@ def bot_choose_card_to_lead(hand, trump):
     if bot_lead_right(hand, trump) != False:
         return bot_lead_right(hand, trump)
     elif bot_lead_highest_trump_in_play(hand, trump, laid_cards) != False:
-        return bot_lead_highest_trump_in_play(hand, trump, laid_cards)
+        return bot_lead_highest_trump_in_play(hand, trump)
     elif bot_lead_offsuit_ace(hand, trump) != False:
         return bot_lead_offsuit_ace(hand, trump)
     else:
