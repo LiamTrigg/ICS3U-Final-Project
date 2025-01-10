@@ -403,7 +403,7 @@ def bot_card_clubs_trump(hand, lead):
     if lead == CLUBS:
         if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
-    elif lead == CLUBS:
+    elif lead == SPADES:
         if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
             return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
     elif lead == HEARTS:
@@ -605,78 +605,88 @@ bot_team_points = 0
 all_laid_cards = []
 laid_cards = []
 
+
+
+
 def play_round():
-    if turn_order[0] == "player":
-        player_card = player_lead_card()
-    elif turn_order[0] == "cpu1":
-        cpu1_card = bot_choose_card_to_lead(cpu1, trump)
-        laid_cards.append(cpu1_card)
-        cpu1.remove(cpu1_card)
-        print(f"Computer 1 lead {cpu1_card}")
-    elif turn_order[0] == "cpu2":
-        cpu2_card = bot_choose_card_to_lead(cpu2, trump)
-        laid_cards.append(cpu2_card)
-        cpu2.remove(cpu2_card)
-        print(f"Computer 2 lead {cpu2_card}")
-    else:
-        cpu3_card = bot_choose_card_to_lead(cpu3, trump)
-        laid_cards.append(cpu3_card)
-        cpu3.remove(cpu3_card)
-        print(f"Computer 3 lead {cpu3_card}")
-    change_turn()
-    lead = suit(laid_cards[0], trump)
-    print(f"{lead} has been lead")
-    count = 0
-    while count < 3:
+    laid_cards = []
+    player_team_points = 0
+    bot_team_points = 0
+    counter = 0
+    while counter < 5:
+        print(cpu1)
+        print(cpu2)
+        print(cpu3)
         if turn_order[0] == "player":
-            player_card = player_lay_card(lead)
-            change_turn()
+            player_card = player_lead_card()
+            laid_cards.append(player_card)
         elif turn_order[0] == "cpu1":
-            cpu1_card = bot_choose_card_to_lay(cpu1, trump, lead)
-            print(f"Computer 1 played {cpu1_card}")
+            cpu1_card = bot_choose_card_to_lead(cpu1, trump)
             laid_cards.append(cpu1_card)
             cpu1.remove(cpu1_card)
-            change_turn()
-
+            print(f"Computer 1 lead {cpu1_card}")
         elif turn_order[0] == "cpu2":
-            cpu2_card = bot_choose_card_to_lay(cpu2, trump, lead)
-            print(f"Computer 2 played {cpu2_card}")
+            cpu2_card = bot_choose_card_to_lead(cpu2, trump)
             laid_cards.append(cpu2_card)
             cpu2.remove(cpu2_card)
-            change_turn()
+            print(f"Computer 2 lead {cpu2_card}")
         else:
-            cpu3_card = bot_choose_card_to_lay(cpu3, trump, lead)
-            print(f"Computer 3 played {cpu3_card}")
+            cpu3_card = bot_choose_card_to_lead(cpu3, trump)
             laid_cards.append(cpu3_card)
             cpu3.remove(cpu3_card)
-            change_turn()
+            print(f"Computer 3 lead {cpu3_card}")
+        change_turn()
+        lead = suit(laid_cards[0], trump)
+        print(f"{lead} has been lead")
+        count = 0
+        while count < 3:
+            if turn_order[0] == "player":
+                player_card = player_lay_card(lead)
+                change_turn()
+            elif turn_order[0] == "cpu1":
+                cpu1_card = bot_choose_card_to_lay(cpu1, trump, lead)
+                print(f"Computer 1 played {cpu1_card}")
+                laid_cards.append(cpu1_card)
+                cpu1.remove(cpu1_card)
+                change_turn()
+
+            elif turn_order[0] == "cpu2":
+                cpu2_card = bot_choose_card_to_lay(cpu2, trump, lead)
+                print(f"Computer 2 played {cpu2_card}")
+                laid_cards.append(cpu2_card)
+                cpu2.remove(cpu2_card)
+                change_turn()
+            else:
+                cpu3_card = bot_choose_card_to_lay(cpu3, trump, lead)
+                print(f"Computer 3 played {cpu3_card}")
+                laid_cards.append(cpu3_card)
+                cpu3.remove(cpu3_card)
+                change_turn()
+            count = count + 1
+        winning_card = highest_card(trump, lead)
+        if player_card == winning_card:
+            print("You won the trick")
+            player_team_points = player_team_points + 1
+        elif cpu1_card == winning_card:
+            print("Computer 1 won the trick")
+            bot_team_points = bot_team_points + 1
+        elif cpu2_card == winning_card:
+            print("Computer 2 won the trick")
+            player_team_points = player_team_points + 1
+        elif cpu3_card == winning_card:
+            print("Computer 3 won the trick")
+            bot_team_points = bot_team_points + 1
+        print(player_team_points)
+        print(bot_team_points)
+        all_laid_cards.append(laid_cards)
+        laid_cards = []
         count = count + 1
 
-    winning_card = highest_card(trump, lead)
-    if player_card == winning_card:
-        print("You won the trick")
-        return 1
-    elif cpu1_card == winning_card:
-        print("Computer 1 won the trick")
-        return 2
-    elif cpu2_card == winning_card:
-        print("Computer 2 won the trick")
-        return 3
-    elif cpu3_card == winning_card:
-        print("Computer 3 won the trick")
-        return 4
-
-
-winner = play_round()
-if winner == 1 or winner == 3:
-    player_team_points = player_team_points + 1
-if winner == 2 or winner == 4:
-    bot_team_points = bot_team_points + 1
 
 
 
 
+play_round()
 
-print(player_team_points)
-print(bot_team_points)
+
 print(laid_cards)
