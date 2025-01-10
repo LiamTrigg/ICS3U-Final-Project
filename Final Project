@@ -283,7 +283,7 @@ def bot_card_clubs_trump (hand, lead):
     if lead == CLUBS:
         if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
-    elif lead == CLUBS:
+    elif lead == SPADES:
         if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
             return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
     elif lead == HEARTS:
