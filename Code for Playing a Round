@@ -344,19 +344,19 @@ def player_lead_card():
 
         if valid_card_choice <= len(player):
             if valid_card_choice == 1:
-                print(f"You played {player[0]}")
+                print(f"You lead {player[0]}")
                 laid_cards.append(player.pop(0))
             elif valid_card_choice == 2:
-                print(f"You played {player[1]}")
+                print(f"You lead {player[1]}")
                 laid_cards.append(player.pop(1))
             elif valid_card_choice == 3:
-                print(f"You played {player[2]}")
+                print(f"You lead {player[2]}")
                 laid_cards.append(player.pop(2))
             elif valid_card_choice == 4:
-                print(f"You played {player[3]}")
+                print(f"You lead {player[3]}")
                 laid_cards.append(player.pop(3))
             else:
-                print(f"You played {player[4]}")
+                print(f"You lead {player[4]}")
                 laid_cards.append(player.pop(4))
         else:
             print("You can not play that.")
@@ -600,8 +600,8 @@ turn_order = ["player", "cpu1", "cpu2", "cpu3"]
 deal_order = ["player", "comp1", "comp2", "comp3"]
 
 
-player_team_points
-bot_team_points
+player_team_points = 0
+bot_team_points = 0
 all_laid_cards = []
 laid_cards = []
 
@@ -652,23 +652,31 @@ def play_round():
             change_turn()
         count = count + 1
 
-    winner = highest_card(trump, lead)
-    if player_card == winner:
-        print("You won the round")
-        player_team_points = points + 1
-    elif cpu1_card == winner:
+    winning_card = highest_card(trump, lead)
+    if player_card == winning_card:
+        print("You won the trick")
+        return 1
+    elif cpu1_card == winning_card:
         print("Computer 1 won the trick")
-        bot_team_points = points + 1
-    elif cpu2_card == winner:
+        return 2
+    elif cpu2_card == winning_card:
         print("Computer 2 won the trick")
-        player_team_points = points + 1
-    else:
+        return 3
+    elif cpu3_card == winning_card:
         print("Computer 3 won the trick")
-        bot_team_points = points + 1
+        return 4
+
+
+winner = play_round()
+if winner == 1 or winner == 3:
+    player_team_points = player_team_points + 1
+if winner == 2 or winner == 4:
+    bot_team_points = bot_team_points + 1
 
 
 
 
-change_turn()
-play_round()
+
+print(player_team_points)
+print(bot_team_points)
 print(laid_cards)
