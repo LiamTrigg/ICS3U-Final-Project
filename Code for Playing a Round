@@ -7,6 +7,16 @@ DIAMONDS = "\u2666"
 trump = CLUBS
 lead = ""
 
+## Intial turn and deal order
+turn_order = ["player", "cpu1", "cpu2", "cpu3"]
+deal_order = ["player", "cpu1", "cpu2", "cpu3"]
+
+
+player_team_round_score = 0
+computer_team_round_score = 0
+all_laid_cards = []
+laid_cards = []
+
 ## full deck
 DECK = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K",
         f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J",
@@ -616,17 +626,6 @@ def bot_choose_card_to_lead(hand, trump):
             card = bot_lay_offsuit_card(hand)
         return card
 
-
-## Intial turn and deal order
-turn_order = ["player", "cpu1", "cpu2", "cpu3"]
-deal_order = ["player", "cpu1", "cpu2", "cpu3"]
-
-
-player_team_points = 0
-bot_team_points = 0
-all_laid_cards = []
-laid_cards = []
-
 def play_round():
     laid_cards = []
     player_team_points = 0
@@ -636,28 +635,29 @@ def play_round():
         print(f"\n~~~~~~~~~\n Trick {counter}  \n~~~~~~~~~")
         if turn_order[0] == "player":
             player_card = player_lead_card()
-            print(player_card)
             laid_cards.append(player_card)
-            print(laid_cards)
             player.remove(player_card)
             lead = suit(player_card, trump)
         elif turn_order[0] == "cpu1":
             cpu1_card = bot_choose_card_to_lead(cpu1, trump)
             laid_cards.append(cpu1_card)
             cpu1.remove(cpu1_card)
-            lead = suit(cpu1, trump)
+            print(suit(cpu1, trump))
+            lead = suit(cpu1_card, trump)
             print(f"Computer 1 lead {cpu1_card}")
         elif turn_order[0] == "cpu2":
             cpu2_card = bot_choose_card_to_lead(cpu2, trump)
             laid_cards.append(cpu2_card)
             cpu2.remove(cpu2_card)
-            lead = suit(cpu2, trump)
+            print(suit(cpu2, trump))
+            lead = suit(cpu2_card, trump)
             print(f"Computer 2 lead {cpu2_card}")
         else:
             cpu3_card = bot_choose_card_to_lead(cpu3, trump)
             laid_cards.append(cpu3_card)
             cpu3.remove(cpu3_card)
-            lead = suit(cpu3, trump)
+            print(suit(cpu3, trump))
+            lead = suit(cpu3_card, trump)
             print(f"Computer 3 lead {cpu3_card}")
         change_turn()
         count = 0
@@ -714,5 +714,17 @@ def play_round():
         counter = counter + 1
     return player_team_points
 
-print(play_round())
 
+round_score = play_round()
+if round_score == 5:
+    print("Your team won the round and scored 2 points")
+    player_team_round_score = player_team_round_score + 2
+elif round_score > 2:
+    print("Your team won the round and scored 1 point")
+    player_team_round_score = player_team_round_score + 1
+elif round_score == 0:
+    print("The Opposing team won the round and scored 2 points")
+    computer_team_round_score = computer_team_round_score + 2
+else:
+    print("The Opposing team won the round and scored 1 point")
+    computer_team_round_score = computer_team_round_score + 1
