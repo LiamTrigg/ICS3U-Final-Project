@@ -53,19 +53,19 @@ DECK_DIAMONDS_HEARTS_TRUMP = [f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f
 CLUBS_TRUMP_ORDER = [f"{CLUBS}J", f"{SPADES}J", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9",
                      f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K",
                      f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
-                     f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9", None]
+                     f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
 SPADES_TRUMP_ORDER = [f"{SPADES}J", f"{CLUBS}J", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9",
                       f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9", f"{HEARTS}A", f"{HEARTS}K",
                       f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
-                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9", None]
+                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
 HEARTS_TRUMP_ORDER = [f"{HEARTS}J", f"{SPADES}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9",
                       f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A",
                       f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
-                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9", None]
+                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
 DIAMONDS_TRUMP_ORDER = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10",
                         f"{DIAMONDS}9", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9",
                         f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9",
-                        f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9", None]
+                        f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
 
 ##Set up decks
 ## Set up shuffled deck
@@ -82,10 +82,6 @@ kitty = shuffled_deck[20:]
 ##Used to update the turn and deal counters
 def change_turn():
     turn_order.insert(3, turn_order.pop(0))
-
-
-def change_deal():
-    deal_order.insert(3, deal_order.pop(0))
 
 
 def suit(card, trump):
@@ -137,24 +133,41 @@ def trump_check(card, trump):
     else:
         return card in DECK_DIAMONDS_TRUMP
 
-def highest_card(trump, lead):
+def highest_card(trump, lead, laid_cards):
     largest_card = 25
     for cards in laid_cards:
         if suit(cards, trump) == trump or suit(cards, trump) == lead:
             if trump == CLUBS:
-                value = CLUBS_TRUMP_ORDER.index(cards)
+                picked = CLUBS_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = CLUBS
             elif trump == SPADES:
-                value = SPADES_TRUMP_ORDER.index(cards)
+                picked = SPADES_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = SPADES
             elif trump == HEARTS:
-                value = HEARTS_TRUMP_ORDER.index(cards)
-            else:
-                value = DIAMONDS_TRUMP_ORDER.index(cards)
-            if value < largest_card:
-                largest_card = value
+                picked = HEARTS_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = HEARTS
+            elif trump == DIAMONDS:
+                picked = DIAMONDS_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = DIAMONDS
         else:
             largest_card = largest_card
-    return CLUBS_TRUMP_ORDER[largest_card]
 
+    if trump_order == CLUBS:
+        return CLUBS_TRUMP_ORDER[largest_card]
+    if trump_order == SPADES:
+        return SPADES_TRUMP_ORDER[largest_card]
+    if trump_order == HEARTS:
+        return HEARTS_TRUMP_ORDER[largest_card]
+    else:
+        return DIAMONDS_TRUMP_ORDER[largest_card]
 
 ## check for valid play from player if clubs laid (follow suit) - Marika
 def player_follow_suit_clubs(hand, trump, card):
@@ -313,19 +326,19 @@ def player_lay_card(lead):
         if valid_card_choice <= len(player):
             if valid_card_choice == 1 and valid_player_card(player, trump, lead, player[0]):
                 print(f"You played {player[0]}")
-                laid_cards.append(player.pop(0))
+                return player[0]
             elif valid_card_choice == 2 and valid_player_card(player, trump, lead, player[1]):
                 print(f"You played {player[1]}")
-                laid_cards.append(player.pop(1))
+                return player[1]
             elif valid_card_choice == 3 and valid_player_card(player, trump, lead, player[2]):
                 print(f"You played {player[2]}")
-                laid_cards.append(player.pop(2))
+                return player[2]
             elif valid_card_choice == 4 and valid_player_card(player, trump, lead, player[3]):
                 print(f"You played {player[3]}")
-                laid_cards.append(player.pop(3))
+                return player[3]
             elif valid_card_choice == 5 and valid_player_card(player, trump, lead, player[4]):
                 print(f"You played {player[4]}")
-                laid_cards.append(player.pop(4))
+                return player[4]
             else:
                 print(f"You must follow suit with {lead}")
                 player_lay_card(lead)
@@ -345,19 +358,19 @@ def player_lead_card():
         if valid_card_choice <= len(player):
             if valid_card_choice == 1:
                 print(f"You lead {player[0]}")
-                laid_cards.append(player.pop(0))
+                return player[0]
             elif valid_card_choice == 2:
                 print(f"You lead {player[1]}")
-                laid_cards.append(player.pop(1))
+                return player[1]
             elif valid_card_choice == 3:
                 print(f"You lead {player[2]}")
-                laid_cards.append(player.pop(2))
+                return player[2]
             elif valid_card_choice == 4:
                 print(f"You lead {player[3]}")
-                laid_cards.append(player.pop(3))
+                return player[3]
             else:
                 print(f"You lead {player[4]}")
-                laid_cards.append(player.pop(4))
+                return player[4]
         else:
             print("You can not play that.")
             player_lead_card()
@@ -597,7 +610,7 @@ def bot_choose_card_to_lead(hand, trump):
 
 ## Intial turn and deal order
 turn_order = ["player", "cpu1", "cpu2", "cpu3"]
-deal_order = ["player", "comp1", "comp2", "comp3"]
+deal_order = ["player", "cpu1", "cpu2", "cpu3"]
 
 
 player_team_points = 0
@@ -605,21 +618,16 @@ bot_team_points = 0
 all_laid_cards = []
 laid_cards = []
 
-
-
-
 def play_round():
     laid_cards = []
     player_team_points = 0
     bot_team_points = 0
     counter = 0
     while counter < 5:
-        print(cpu1)
-        print(cpu2)
-        print(cpu3)
         if turn_order[0] == "player":
             player_card = player_lead_card()
             laid_cards.append(player_card)
+            player.remove(player_card)
         elif turn_order[0] == "cpu1":
             cpu1_card = bot_choose_card_to_lead(cpu1, trump)
             laid_cards.append(cpu1_card)
@@ -637,11 +645,12 @@ def play_round():
             print(f"Computer 3 lead {cpu3_card}")
         change_turn()
         lead = suit(laid_cards[0], trump)
-        print(f"{lead} has been lead")
         count = 0
         while count < 3:
             if turn_order[0] == "player":
                 player_card = player_lay_card(lead)
+                laid_cards.append(player_card)
+                player.remove(player_card)
                 change_turn()
             elif turn_order[0] == "cpu1":
                 cpu1_card = bot_choose_card_to_lay(cpu1, trump, lead)
@@ -663,7 +672,10 @@ def play_round():
                 cpu3.remove(cpu3_card)
                 change_turn()
             count = count + 1
-        winning_card = highest_card(trump, lead)
+
+        winning_card = highest_card(trump, lead, laid_cards)
+        print(winning_card)
+
         if player_card == winning_card:
             print("You won the trick")
             player_team_points = player_team_points + 1
@@ -676,17 +688,12 @@ def play_round():
         elif cpu3_card == winning_card:
             print("Computer 3 won the trick")
             bot_team_points = bot_team_points + 1
-        print(player_team_points)
-        print(bot_team_points)
+        print(f"Player team: {player_team_points}")
+        print(f"Opposing team: {bot_team_points}")
         all_laid_cards.append(laid_cards)
         laid_cards = []
         count = count + 1
-
-
-
-
+    print(all_laid_cards)
 
 play_round()
 
-
-print(laid_cards)
