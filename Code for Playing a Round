@@ -83,6 +83,22 @@ kitty = shuffled_deck[20:]
 def change_turn():
     turn_order.insert(3, turn_order.pop(0))
 
+def player_turn():
+    while turn_order[0] != "player":
+        change_turn()
+
+def cpu1_turn():
+    while turn_order[0] != "cpu1":
+        change_turn()
+
+def cpu2_turn():
+    while turn_order[0] != "cpu2":
+        change_turn()
+
+def cpu3_turn():
+    while turn_order[0] != "cpu3":
+        change_turn()
+
 
 def suit(card, trump):
     ## If card is not a jack
@@ -135,6 +151,7 @@ def trump_check(card, trump):
 
 def highest_card(trump, lead, laid_cards):
     largest_card = 25
+    trump_order = ""
     for cards in laid_cards:
         if suit(cards, trump) == trump or suit(cards, trump) == lead:
             if trump == CLUBS:
@@ -157,8 +174,6 @@ def highest_card(trump, lead, laid_cards):
                 if picked < largest_card:
                     largest_card = picked
                     trump_order = DIAMONDS
-        else:
-            largest_card = largest_card
 
     if trump_order == CLUBS:
         return CLUBS_TRUMP_ORDER[largest_card]
@@ -325,28 +340,23 @@ def player_lay_card(lead):
 
         if valid_card_choice <= len(player):
             if valid_card_choice == 1 and valid_player_card(player, trump, lead, player[0]):
-                print(f"You played {player[0]}")
                 return player[0]
             elif valid_card_choice == 2 and valid_player_card(player, trump, lead, player[1]):
-                print(f"You played {player[1]}")
                 return player[1]
             elif valid_card_choice == 3 and valid_player_card(player, trump, lead, player[2]):
-                print(f"You played {player[2]}")
                 return player[2]
             elif valid_card_choice == 4 and valid_player_card(player, trump, lead, player[3]):
-                print(f"You played {player[3]}")
                 return player[3]
             elif valid_card_choice == 5 and valid_player_card(player, trump, lead, player[4]):
-                print(f"You played {player[4]}")
                 return player[4]
             else:
                 print(f"You must follow suit with {lead}")
-                player_lay_card(lead)
+                return player_lay_card(lead)
         else:
             print("You can not play that.")
-            player_lay_card(lead)
+            return player_lay_card(lead)
     except:
-        player_lay_card(lead)
+        return player_lay_card(lead)
 
 
 def player_lead_card():
@@ -603,7 +613,6 @@ def bot_choose_card_to_lead(hand, trump):
     else:
         card = bot_lay_offsuit_card(hand)
         while trump_check(card, trump) == True:
-            hand.remove(card)
             card = bot_lay_offsuit_card(hand)
         return card
 
@@ -622,33 +631,40 @@ def play_round():
     laid_cards = []
     player_team_points = 0
     bot_team_points = 0
-    counter = 0
-    while counter < 5:
+    counter = 1
+    while counter < 6:
+        print(f"\n~~~~~~~~~\n Trick {counter}  \n~~~~~~~~~")
         if turn_order[0] == "player":
             player_card = player_lead_card()
+            print(player_card)
             laid_cards.append(player_card)
+            print(laid_cards)
             player.remove(player_card)
+            lead = suit(player_card, trump)
         elif turn_order[0] == "cpu1":
             cpu1_card = bot_choose_card_to_lead(cpu1, trump)
             laid_cards.append(cpu1_card)
             cpu1.remove(cpu1_card)
+            lead = suit(cpu1, trump)
             print(f"Computer 1 lead {cpu1_card}")
         elif turn_order[0] == "cpu2":
             cpu2_card = bot_choose_card_to_lead(cpu2, trump)
             laid_cards.append(cpu2_card)
             cpu2.remove(cpu2_card)
+            lead = suit(cpu2, trump)
             print(f"Computer 2 lead {cpu2_card}")
         else:
             cpu3_card = bot_choose_card_to_lead(cpu3, trump)
             laid_cards.append(cpu3_card)
             cpu3.remove(cpu3_card)
+            lead = suit(cpu3, trump)
             print(f"Computer 3 lead {cpu3_card}")
         change_turn()
-        lead = suit(laid_cards[0], trump)
         count = 0
         while count < 3:
             if turn_order[0] == "player":
                 player_card = player_lay_card(lead)
+                print(f"You played {player_card}")
                 laid_cards.append(player_card)
                 player.remove(player_card)
                 change_turn()
@@ -658,7 +674,6 @@ def play_round():
                 laid_cards.append(cpu1_card)
                 cpu1.remove(cpu1_card)
                 change_turn()
-
             elif turn_order[0] == "cpu2":
                 cpu2_card = bot_choose_card_to_lay(cpu2, trump, lead)
                 print(f"Computer 2 played {cpu2_card}")
@@ -674,26 +689,30 @@ def play_round():
             count = count + 1
 
         winning_card = highest_card(trump, lead, laid_cards)
-        print(winning_card)
-
         if player_card == winning_card:
             print("You won the trick")
+            player_turn()
             player_team_points = player_team_points + 1
         elif cpu1_card == winning_card:
             print("Computer 1 won the trick")
+            cpu1_turn()
             bot_team_points = bot_team_points + 1
         elif cpu2_card == winning_card:
             print("Computer 2 won the trick")
+            cpu2_turn()
             player_team_points = player_team_points + 1
         elif cpu3_card == winning_card:
             print("Computer 3 won the trick")
+            cpu3_turn()
             bot_team_points = bot_team_points + 1
-        print(f"Player team: {player_team_points}")
-        print(f"Opposing team: {bot_team_points}")
+        print("~~~~~~~~~~~~~~~~~~")
+        print(f" Player team: {player_team_points}")
+        print(f" Opposing team: {bot_team_points}")
+        print("~~~~~~~~~~~~~~~~~~")
         all_laid_cards.append(laid_cards)
         laid_cards = []
-        count = count + 1
-    print(all_laid_cards)
+        counter = counter + 1
+    return player_team_points
 
-play_round()
+print(play_round())
 
