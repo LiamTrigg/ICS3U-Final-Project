@@ -260,7 +260,7 @@ def bot_choose_trump_first_round(hand):
 
 ## Allows the player to choose trump in the second round
 def player_choose_trump_second_round():
-    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}) ")
+    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}, type 'pass' to pass) ")
     if choice.lower() == "clubs":
         if suit(kitty[0]) != CLUBS:
             return CLUBS
@@ -523,15 +523,16 @@ def choose_trump_second():
         ##Call turn order 4 and force to give actual trump option
         return [SPADES, deal_order[0]]
 
+print(player)
 ##Decide the trump suit - if not decided in the first round, runs a second round
 first_round = choose_trump_first()
 if first_round != PASS:
     trump = suit(kitty[0])
-    who_chose = first_round
+    who_called = first_round
 else:
     second_round = choose_trump_second()
     trump = second_round[0]
-    who_chose = second_round[1]
+    who_called = second_round[1]
 
 ## determine if a card is trump - Marika
 def trump_check(card, trump):
@@ -548,7 +549,7 @@ def highest_card(trump, lead, laid_cards):
     largest_card = 25
     trump_order = ""
     for cards in laid_cards:
-        if suit(cards, trump) == trump or suit(cards, trump) == lead:
+        if suit_with_trump(cards, trump) == trump or suit_with_trump(cards, trump) == lead:
             if trump == CLUBS:
                 picked = CLUBS_TRUMP_ORDER.index(cards)
                 if picked < largest_card:
@@ -1024,24 +1025,24 @@ def play_round():
             player_card = player_lead_card()
             laid_cards.append(player_card)
             player.remove(player_card)
-            lead = suit(player_card, trump)
+            lead = suit_with_trump(player_card, trump)
         elif turn_order[0] == "cpu1":
             cpu1_card = bot_choose_card_to_lead(cpu1, trump)
             laid_cards.append(cpu1_card)
             cpu1.remove(cpu1_card)
-            lead = suit(cpu1_card, trump)
+            lead = suit_with_trump(cpu1_card, trump)
             print(f"Computer 1 lead {cpu1_card}")
         elif turn_order[0] == "cpu2":
             cpu2_card = bot_choose_card_to_lead(cpu2, trump)
             laid_cards.append(cpu2_card)
             cpu2.remove(cpu2_card)
-            lead = suit(cpu2_card, trump)
+            lead = suit_with_trump(cpu2_card, trump)
             print(f"Computer 2 lead {cpu2_card}")
         else:
             cpu3_card = bot_choose_card_to_lead(cpu3, trump)
             laid_cards.append(cpu3_card)
             cpu3.remove(cpu3_card)
-            lead = suit(cpu3_card, trump)
+            lead = suit_with_trump(cpu3_card, trump)
             print(f"Computer 3 lead {cpu3_card}")
         change_turn()
         count = 0
@@ -1098,7 +1099,6 @@ def play_round():
         counter = counter + 1
     return player_team_points
 
-who_called = "player"
 round_score = play_round()
 if round_score == 5:
     if who_called == "player" or who_called == "cpu2":
@@ -1114,7 +1114,6 @@ elif round_score > 2:
     else:
         print("Your team won the round and scored 2 point")
         player_team_round_score = player_team_round_score + 2
-
 elif round_score == 0:
     if who_called == "player" or who_called == "cpu2":
         print("The Opposing team won the round and scored 4 points")
@@ -1129,4 +1128,3 @@ else:
     else:
         print("The Opposing team won the round and scored 1 point")
         computer_team_round_score = computer_team_round_score + 1
-
