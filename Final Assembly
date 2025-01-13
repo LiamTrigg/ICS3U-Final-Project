@@ -134,7 +134,7 @@ def cpu3_turn():
 def change_deal():
     deal_order.insert(3, deal_order.pop(0))
 
-####Checks what suit a card is before trump is chosen
+##Checks what suit a card is before trump is chosen
 def suit(card):
     ##If card is in Clubs
     if card in DECK_CLUBS:
@@ -149,7 +149,7 @@ def suit(card):
     else:
         return DIAMONDS
 
-####Checks what suit a card is after trump is chosen
+##Checks what suit a card is after trump is chosen
 def suit_with_trump(card, trump):
     ## If card is not a jack
     if card not in DECK_JACK:
@@ -197,6 +197,7 @@ def player_choose_trump_first_round():
         return False
     else:
         player_choose_trump_first_round()
+
 ## Allows the computer to choose trump in first round
 def bot_choose_trump_first_round(hand):
     trump = suit(kitty[0])
@@ -256,11 +257,10 @@ def bot_choose_trump_first_round(hand):
                 return False
         else:
             return False
+
 ## Allows the player to choose trump in the second round
 def player_choose_trump_second_round():
-
     choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}) ")
-
     if choice.lower() == "clubs":
         if suit(kitty[0]) != CLUBS:
             return CLUBS
@@ -277,6 +277,7 @@ def player_choose_trump_second_round():
         return PASS
     else:
         return player_choose_trump_second_round()
+
 ## Allows the computer to decide trump in the second round
 def bot_choose_trump_second_round(hand):
     not_trump = suit(kitty[0])
@@ -503,6 +504,5 @@ def choose_trump_second():
 ##Decide the trump suit - if not decided in the first round, runs a second round
 if choose_trump_first() != PASS:
     trump = suit(kitty[0])
-    #trump = choose_trump_first()
 else:
     trump = choose_trump_second()
