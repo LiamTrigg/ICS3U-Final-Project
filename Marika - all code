@@ -172,14 +172,15 @@ def bot_choose_trump_first_round(hand):
             return False
 
 ## if bot dealt and told to pick up kitty card - new hand - Marika
-def add_kitty_card_to_bot_hand(hand, trump, card):
+def add_kitty_card_to_bot_hand(hand):
+    new_card = kitty[0]
     discarded_card = bot_lay_offsuit_card(hand)
     new_hand = list(hand)
     while trump_check(discarded_card, trump) == True:
         new_hand.remove(discarded_card)
         discarded_card = bot_lay_offsuit_card(new_hand)
     hand.remove(discarded_card)
-    hand.append(card)
+    hand.append(new_card)
     return hand
 
 ## bot decide trump second round - Marika
