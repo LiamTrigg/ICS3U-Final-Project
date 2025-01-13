@@ -188,6 +188,8 @@ def suit_with_trump(card, trump):
             else:
                 return DIAMONDS
 
+
+
 ##Allows the player to choose trump in the first round
 def player_choose_trump_first_round():
     choice = input(f"Would you like {kitty[0]} to be trump? ")
@@ -257,6 +259,42 @@ def bot_choose_trump_first_round(hand):
                 return False
         else:
             return False
+
+def add_kitty_card_to_player_hand():
+    print(player)
+    card_choice = input(f"Which card would you like to swap with {kitty[0]}? ")
+    try:
+        valid_card_choice = int(card_choice)
+
+        if valid_card_choice <= len(player):
+            if valid_card_choice == 1:
+                player.remove(player[0])
+            elif valid_card_choice == 2:
+                player.remove(player[1])
+            elif valid_card_choice == 3:
+                player.remove(player[2])
+            elif valid_card_choice == 4:
+                player.remove(player[3])
+            else:
+                player.remove(player[4])
+            player.append(kitty[0])
+            print(f"Your new hand is {player}")
+        else:
+            print("You can not discard that card.")
+            player_lead_card()
+    except:
+        player_lead_card()
+## if bot dealt and told to pick up kitty card - new hand - Marika
+def add_kitty_card_to_bot_hand(hand):
+    new_card = kitty[0]
+    discarded_card = bot_lay_offsuit_card(hand)
+    new_hand = list(hand)
+    while trump_check(discarded_card, trump) == True:
+        new_hand.remove(discarded_card)
+        discarded_card = bot_lay_offsuit_card(new_hand)
+    hand.remove(discarded_card)
+    hand.append(new_card)
+    return hand
 
 ## Allows the player to choose trump in the second round
 def player_choose_trump_second_round():
@@ -529,6 +567,15 @@ first_round = choose_trump_first()
 if first_round != PASS:
     trump = suit(kitty[0])
     who_called = first_round
+    who_dealt = deal_order[0]
+    if who_dealt == "player":
+        add_kitty_card_to_player_hand()
+    elif who_dealt == "cpu1":
+        add_kitty_card_to_bot_hand(cpu1)
+    elif who_dealt == "cpu2":
+        add_kitty_card_to_bot_hand(cpu2)
+    else:
+        add_kitty_card_to_bot_hand(cpu3)
 else:
     second_round = choose_trump_second()
     trump = second_round[0]
