@@ -1,84 +1,1176 @@
-    def play_round():
-        laid_cards = []
-        player_team_points = 0
-        bot_team_points = 0
-        counter = 1
-        while counter < 6:
-            print(f"\n~~~~~~~~~\n Trick {counter}  \n~~~~~~~~~")
+##The game Euchre made by Marika and Liam
+
+import random
+
+##Define the constants for suits symbols
+CLUBS = "\u2663"
+SPADES = "\u2660"
+HEARTS = "\u2665"
+DIAMONDS = "\u2666"
+
+PASS = "pass"
+##Variables that change each round
+trump = ""
+lead = ""
+
+##Lists to keep track of whose turn and deal it is
+turn_order = ["cpu1", "cpu2", "cpu3", "player"]
+deal_order = ["player", "cpu1", "cpu2", "cpu3"]
+
+##Score counters for each team
+player_team_round_score = 0
+computer_team_round_score = 0
+
+##All the decks required for the game
+
+##Full deck (when no trump is not chosen)
+DECK = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A", f"{SPADES}K",
+        f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J",
+        f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10",
+        f"{DIAMONDS}9"]
+
+##Decks by card value
+DECK_ACE = [f"{CLUBS}A", f"{SPADES}A", f"{HEARTS}A", f"{DIAMONDS}A"]
+DECK_KING = [f"{CLUBS}K", f"{SPADES}K", f"{HEARTS}K", f"{DIAMONDS}K"]
+DECK_QUEEN = [f"{CLUBS}Q", f"{SPADES}Q", f"{HEARTS}Q", f"{DIAMONDS}Q"]
+DECK_JACK = [f"{CLUBS}J", f"{SPADES}J", f"{HEARTS}J", f"{DIAMONDS}J"]
+DECK_TEN = [f"{CLUBS}10", f"{SPADES}10", f"{HEARTS}10", f"{DIAMONDS}10"]
+DECK_NINE = [f"{CLUBS}9", f"{SPADES}9", f"{HEARTS}9", f"{DIAMONDS}9"]
+
+##Decks by suit (before choosing trump)
+DECK_CLUBS = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9"]
+DECK_SPADES = [f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9"]
+DECK_HEARTS = [f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9"]
+DECK_DIAMONDS = [f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+
+##Decks by suit (if suit is trump)
+DECK_CLUBS_TRUMP = [f"{CLUBS}J", f"{SPADES}J", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9"]
+DECK_SPADES_TRUMP = [f"{SPADES}J", f"{CLUBS}J", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9"]
+DECK_HEARTS_TRUMP = [f"{HEARTS}J", f"{DIAMONDS}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
+DECK_DIAMONDS_TRUMP = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+
+##Decks by suit when suit of the same colour is trump (no jack)
+DECK_CLUBS_SPADES_TRUMP = [f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9"]
+DECK_SPADES_CLUBS_TRUMP = [f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9"]
+DECK_HEARTS_DIAMONDS_TRUMP = [f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
+DECK_DIAMONDS_HEARTS_TRUMP = [f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+
+##Full decks (when trump is chosen)
+CLUBS_TRUMP_ORDER = [f"{CLUBS}J", f"{SPADES}J", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9",
+                     f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9", f"{HEARTS}A", f"{HEARTS}K",
+                     f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
+                     f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+SPADES_TRUMP_ORDER = [f"{SPADES}J", f"{CLUBS}J", f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}10", f"{SPADES}9",
+                      f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}10", f"{CLUBS}9", f"{HEARTS}A", f"{HEARTS}K",
+                      f"{HEARTS}Q", f"{HEARTS}J", f"{HEARTS}10", f"{HEARTS}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
+                      f"{DIAMONDS}Q", f"{DIAMONDS}J", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+HEARTS_TRUMP_ORDER = [f"{HEARTS}J", f"{DIAMONDS}J", f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9",
+                      f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9", f"{SPADES}A",
+                      f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9", f"{DIAMONDS}A", f"{DIAMONDS}K",
+                      f"{DIAMONDS}Q", f"{DIAMONDS}10", f"{DIAMONDS}9"]
+DIAMONDS_TRUMP_ORDER = [f"{DIAMONDS}J", f"{HEARTS}J", f"{DIAMONDS}A", f"{DIAMONDS}K", f"{DIAMONDS}Q", f"{DIAMONDS}10",
+                        f"{DIAMONDS}9", f"{CLUBS}A", f"{CLUBS}K", f"{CLUBS}Q", f"{CLUBS}J", f"{CLUBS}10", f"{CLUBS}9",
+                        f"{SPADES}A", f"{SPADES}K", f"{SPADES}Q", f"{SPADES}J", f"{SPADES}10", f"{SPADES}9",
+                        f"{HEARTS}A", f"{HEARTS}K", f"{HEARTS}Q", f"{HEARTS}10", f"{HEARTS}9"]
+
+##Lists of all the cards played and the cards played in the round
+all_laid_cards = []
+laid_cards = []
+
+##Helper functions
+
+##Used to update the turn and deal counters
+def change_turn():
+    turn_order.insert(3, turn_order.pop(0))
+
+def player_turn():
+    while turn_order[0] != "player":
+        change_turn()
+
+def cpu1_turn():
+    while turn_order[0] != "cpu1":
+        change_turn()
+
+def cpu2_turn():
+    while turn_order[0] != "cpu2":
+        change_turn()
+
+def cpu3_turn():
+    while turn_order[0] != "cpu3":
+        change_turn()
+
+def change_deal():
+    deal_order.insert(3, deal_order.pop(0))
+
+##Checks what suit a card is before trump is chosen
+def suit(card):
+    if card in DECK_CLUBS:
+        return CLUBS
+    elif card in DECK_SPADES:
+        return SPADES
+    elif card in DECK_HEARTS:
+        return HEARTS
+    else:
+        return DIAMONDS
+
+##Checks what suit a card is after trump is chosen
+def suit_with_trump(card, trump):
+    ## If card is not a jack
+    if card not in DECK_JACK:
+        if card in DECK_CLUBS:
+            return CLUBS
+        elif card in DECK_SPADES:
+            return SPADES
+        elif card in DECK_HEARTS:
+            return HEARTS
+        else:
+            return DIAMONDS
+    ## If card is a jack
+    else:
+        if card in DECK_CLUBS:
+            if trump == SPADES:
+                return SPADES
+            else:
+                return CLUBS
+        elif card in DECK_SPADES:
+            if trump == CLUBS:
+                return CLUBS
+            else:
+                return SPADES
+        elif card in DECK_HEARTS:
+            if trump == DIAMONDS:
+                return DIAMONDS
+            else:
+                return HEARTS
+        else:
+            if trump == HEARTS:
+                return HEARTS
+            else:
+                return DIAMONDS
+
+##Determine if a card is trump
+def trump_check(card, trump):
+    if trump == CLUBS:
+        return card in DECK_CLUBS_TRUMP
+    elif trump == SPADES:
+        return card in DECK_SPADES_TRUMP
+    elif trump == HEARTS:
+        return card in DECK_HEARTS_TRUMP
+    else:
+        return card in DECK_DIAMONDS_TRUMP
+
+##Find lowest card in hand of any suit, including trump decks
+def lowest_card_in_hand(hand, suit_deck):
+    index = len(suit_deck) - 1
+    while index >= 0:
+        if suit_deck[index] in hand:
+            return suit_deck[index]
+        else:
+            index = index - 1
+    return False
+
+##Find highest card in hand of any suit, including trump decks
+def highest_card_in_hand(hand, suit_deck):
+    index = 0
+    while index < len(suit_deck):
+        if suit_deck[index] in hand:
+            return suit_deck[index]
+        else:
+            index = index + 1
+    return False
+
+##Find a card of a certain number in hand
+def number_card_in_hand(hand, number_deck):
+    index = 0
+    while index < len(number_deck):
+        if number_deck[index] in hand:
+            return number_deck[index]
+        else:
+            index = index + 1
+    return False
+
+##Allows the player to choose trump in the first round
+def player_choose_trump_first_round():
+    choice = input(f"Would you like {kitty[0]} to be trump? (yes or no): ")
+    if choice.lower() == "yes":
+        return True
+    elif choice.lower() == "no":
+        return False
+    else:
+        return player_choose_trump_first_round()
+
+##Allows the computer to choose trump in first round
+def bot_choose_trump_first_round(hand):
+    trump = suit(kitty[0])
+    if trump == CLUBS:
+        if DECK_CLUBS_TRUMP[0] in hand or DECK_CLUBS_TRUMP[1] in hand:
+            counter = 0
+            index = 0
+            while index < 5:
+                if DECK_CLUBS_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+    elif trump == SPADES:
+        if DECK_SPADES_TRUMP[0] in hand or DECK_SPADES_TRUMP[1] in hand:
+            counter = 0
+            index = 0
+            while index < 5:
+                if DECK_SPADES_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+    elif trump == HEARTS:
+        if DECK_HEARTS_TRUMP[0] in hand or DECK_HEARTS_TRUMP[1] in hand:
+            counter = 0
+            index = 0
+            while index < 5:
+                if DECK_HEARTS_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        if DECK_DIAMONDS_TRUMP[0] in hand or DECK_DIAMONDS_TRUMP[1] in hand:
+            counter = 0
+            index = 0
+            while index < 5:
+                if DECK_DIAMONDS_TRUMP[index] in hand:
+                    counter = counter + 1
+                index = index + 1
+            if counter >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+##If player dealt and trump chosen first round, player adds card to hand and discards another card
+def add_kitty_card_to_player_hand():
+    print(f"Your hand is {player}")
+    card_choice = input(f"Which card would you like to swap with {kitty[0]}? (1-5): ")
+    try:
+        valid_card_choice = int(card_choice)
+
+        if valid_card_choice <= len(player):
+            if valid_card_choice == 1:
+                player.remove(player[0])
+            elif valid_card_choice == 2:
+                player.remove(player[1])
+            elif valid_card_choice == 3:
+                player.remove(player[2])
+            elif valid_card_choice == 4:
+                player.remove(player[3])
+            else:
+                player.remove(player[4])
+            player.append(kitty[0])
+            print(f"Your new hand is {player}")
+        else:
+            print("You can not discard that card.")
+            player_lead_card()
+    except:
+        player_lead_card()
+
+##If bot dealt and trump chosen first round, bot adds card to hand and discards another card
+def add_kitty_card_to_bot_hand(hand):
+    new_card = kitty[0]
+    discarded_card = bot_lay_offsuit_card(hand)
+    new_hand = list(hand)
+    while trump_check(discarded_card, trump) == True:
+        new_hand.remove(discarded_card)
+        discarded_card = bot_lay_offsuit_card(new_hand)
+    hand.remove(discarded_card)
+    hand.append(new_card)
+    return hand
+
+##Allows the player to choose trump in the second round
+def player_choose_trump_second_round():
+    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}, type 'pass' to pass) ")
+    if choice.lower() == "clubs":
+        if suit(kitty[0]) != CLUBS:
+            return CLUBS
+    if choice.lower() == "spades":
+        if suit(kitty[0]) != SPADES:
+            return SPADES
+    if choice.lower() == "hearts":
+        if suit(kitty[0]) != HEARTS:
+            return HEARTS
+    if choice.lower() == "diamonds":
+        if suit(kitty[0]) != DIAMONDS:
+            return DIAMONDS
+    if choice.lower() == "pass":
+        return PASS
+    else:
+        return player_choose_trump_second_round()
+
+##Allows the computer to decide trump in the second round
+def bot_choose_trump_second_round(hand):
+    not_trump = suit(kitty[0])
+    trump = ""
+    if DECK_CLUBS_TRUMP[0] in hand:
+        counter = 0
+        index = 1
+        while index < 7:
+            if DECK_CLUBS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = CLUBS
+    elif DECK_CLUBS_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        while index < 7:
+            if DECK_CLUBS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = CLUBS
+    if DECK_SPADES_TRUMP[0] in hand:
+        counter = 0
+        index = 1
+        while index < 7:
+            if DECK_SPADES_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = SPADES
+    elif DECK_SPADES_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        while index < 7:
+            if DECK_SPADES_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = SPADES
+    if DECK_HEARTS_TRUMP[0] in hand:
+        counter = 0
+        index = 1
+        while index < 7:
+            if DECK_HEARTS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = HEARTS
+    elif DECK_HEARTS_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        while index < 7:
+            if DECK_HEARTS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = HEARTS
+    if DECK_DIAMONDS_TRUMP[0] in hand:
+        counter = 0
+        index = 2
+        while index < 7:
+            if DECK_DIAMONDS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = DIAMONDS
+    elif DECK_DIAMONDS_TRUMP[1] in hand:
+        counter = 0
+        index = 2
+        while index < 7:
+            if DECK_DIAMONDS_TRUMP[index] in hand:
+                counter = counter + 1
+            index = index + 1
+        if counter >= 2:
+            trump = DIAMONDS
+    if trump != not_trump and trump != "":
+        return trump
+    else:
+        return False
+
+##Runs the first round of choosing trump
+def choose_trump_first():
+    index = 0
+    exit = False
+    who_chose = ""
+    while exit == False and index < 4:
+        if turn_order[0] == "player":
+             if not player_choose_trump_first_round():
+                print("You passed.")
+                change_turn()
+                index = index + 1
+             else:
+                print(f"You chose {suit(kitty[0])} as trump.")
+                exit = True
+                who_chose = "player"
+        elif turn_order[0] == "cpu1":
+             if bot_choose_trump_first_round(cpu1):
+                print(f"Computer 1 has chosen {suit(kitty[0])} as trump.")
+                exit = True
+                who_chose = "cpu1"
+             else:
+                print(f"Computer 1 has passed.")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu2":
+            if bot_choose_trump_first_round(cpu2):
+                print(f"Computer 2 has chosen {suit(kitty[0])} as trump.")
+                exit = True
+                who_chose = "cpu2"
+            else:
+                print(f"Computer 2 has passed.")
+                change_turn()
+                index = index + 1
+        else:
+             if bot_choose_trump_first_round(cpu3):
+                print(f"Computer 3 has chosen {suit(kitty[0])} as trump.")
+                exit = True
+                who_chose = "cpu3"
+             else:
+                print(f"Computer 3 has passed.")
+                change_turn()
+                index = index + 1
+    if index != 4:
+        return who_chose
+    else:
+        return PASS
+
+##Runs the second round of choosing trump
+def choose_trump_second():
+    trump = ""
+    index = 0
+    exit = False
+    who_chose = ""
+    while exit == False and index < 4:
+        if turn_order[0] == "player":
+            player_choice = player_choose_trump_second_round()
+            if player_choice == CLUBS:
+                print(f"You have chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+                who_chose = "player"
+            elif player_choice == SPADES:
+                print(f"You have chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+                who_chose = "player"
+            elif player_choice == HEARTS:
+                print(f"You have chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+                who_chose = "player"
+            elif player_choice == DIAMONDS:
+                print(f"You have chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+                who_chose = "player"
+            else:
+                print("You have passed.")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu1":
+            bot_choice = bot_choose_trump_second_round(cpu1)
+            if bot_choice == CLUBS:
+                print(f"Computer 1 has chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+                who_chose = "cpu1"
+            elif bot_choice  == SPADES:
+                print(f"Computer 1 has chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+                who_chose = "cpu1"
+            elif bot_choice  == HEARTS:
+                print(f"Computer 1 has chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+                who_chose = "cpu1"
+            elif bot_choice  == DIAMONDS:
+                print(f"Computer 1 has chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+                who_chose = "cpu1"
+            else:
+                print(f"Computer 1 has passed")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu2":
+            bot_choice = bot_choose_trump_second_round(cpu2)
+            if bot_choice == CLUBS:
+                print(f"Computer 2 has chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+                who_chose = "cpu2"
+            elif bot_choice == SPADES:
+                print(f"Computer 2 has chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+                who_chose = "cpu2"
+            elif bot_choice == HEARTS:
+                print(f"Computer 2 has chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+                who_chose = "cpu2"
+            elif bot_choice == DIAMONDS:
+                print(f"Computer 2 has chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+                who_chose = "cpu2"
+            else:
+                print(f"Computer 2 has passed.")
+                change_turn()
+                index = index + 1
+        elif turn_order[0] == "cpu3":
+            bot_choice = bot_choose_trump_second_round(cpu3)
+            if bot_choice == CLUBS:
+                print(f"Computer 3 has chosen {CLUBS} as trump.")
+                trump = CLUBS
+                exit = True
+                who_chose = "cpu3"
+            elif bot_choice == SPADES:
+                print(f"Computer 3 has chosen {SPADES} as trump.")
+                trump = SPADES
+                exit = True
+                who_chose = "cpu3"
+            elif bot_choice == HEARTS:
+                print(f"Computer 3 has chosen {HEARTS} as trump.")
+                trump = HEARTS
+                exit = True
+                who_chose = "cpu3"
+            elif bot_choice == DIAMONDS:
+                print(f"Computer 3 has chosen {DIAMONDS} as trump.")
+                trump = DIAMONDS
+                exit = True
+                who_chose = "cpu3"
+            else:
+                print(f"Computer 3 has passed.")
+                change_turn()
+                index = index + 1
+    if trump != "":
+        return [trump, who_chose]
+    else:
+        ##Call turn order 4 and force to give actual trump option
+        return PASS
+
+##Determine which card is higher
+def highest_card(trump, lead, laid_cards):
+    largest_card = 25
+    trump_order = ""
+    for cards in laid_cards:
+        if suit_with_trump(cards, trump) == trump or suit_with_trump(cards, trump) == lead:
+            if trump == CLUBS:
+                picked = CLUBS_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = CLUBS
+            elif trump == SPADES:
+                picked = SPADES_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = SPADES
+            elif trump == HEARTS:
+                picked = HEARTS_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = HEARTS
+            elif trump == DIAMONDS:
+                picked = DIAMONDS_TRUMP_ORDER.index(cards)
+                if picked < largest_card:
+                    largest_card = picked
+                    trump_order = DIAMONDS
+    if trump_order == CLUBS:
+        return CLUBS_TRUMP_ORDER[largest_card]
+    if trump_order == SPADES:
+        return SPADES_TRUMP_ORDER[largest_card]
+    if trump_order == HEARTS:
+        return HEARTS_TRUMP_ORDER[largest_card]
+    else:
+        return DIAMONDS_TRUMP_ORDER[largest_card]
+
+##Lets player chose a card to lead
+def player_lead_card():
+    print(f"Your hand is {player}")
+    card_choice = input(f"Which card would you like to lead? ")
+    try:
+        valid_card_choice = int(card_choice)
+
+        if valid_card_choice <= len(player):
+            if valid_card_choice == 1:
+                print(f"You lead {player[0]}")
+                return player[0]
+            elif valid_card_choice == 2:
+                print(f"You lead {player[1]}")
+                return player[1]
+            elif valid_card_choice == 3:
+                print(f"You lead {player[2]}")
+                return player[2]
+            elif valid_card_choice == 4:
+                print(f"You lead {player[3]}")
+                return player[3]
+            else:
+                print(f"You lead {player[4]}")
+                return player[4]
+        else:
+            print("You can not play that.")
+            player_lead_card()
+    except:
+        player_lead_card()
+
+##Lets player chose a card to lay when not leading
+def player_lay_card(lead):
+    print(f"Your hand is {player}")
+    card_choice = input(f"Which card would you like to play? ")
+    try:
+        valid_card_choice = int(card_choice)
+
+        if valid_card_choice <= len(player) and len(player) > 1:
+            if valid_card_choice == 1 and valid_player_card(player, trump, lead, player[0]):
+                return player[0]
+            elif valid_card_choice == 2 and valid_player_card(player, trump, lead, player[1]):
+                return player[1]
+            elif valid_card_choice == 3 and valid_player_card(player, trump, lead, player[2]):
+                return player[2]
+            elif valid_card_choice == 4 and valid_player_card(player, trump, lead, player[3]):
+                return player[3]
+            elif valid_card_choice == 5 and valid_player_card(player, trump, lead, player[4]):
+                return player[4]
+            else:
+                print(f"You must follow suit with {lead}")
+                return player_lay_card(lead)
+        elif len(player) == 1:
+            return player[0]
+        else:
+            print("You can not play that.")
+            return player_lay_card(lead)
+    except:
+        return player_lay_card(lead)
+
+##Check for valid play from player if clubs laid (follow suit)
+def player_follow_suit_clubs(hand, trump, card):
+    if trump == CLUBS:
+        if card in DECK_CLUBS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == SPADES:
+        if card in DECK_CLUBS_SPADES_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS_SPADES_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_CLUBS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_CLUBS:
+                    return False
+                index = index + 1
+            return True
+
+##Check for valid play from player if spades laid (follow suit)
+def player_follow_suit_spades(hand, trump, card):
+    if trump == SPADES:
+        if card in DECK_SPADES_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == CLUBS:
+        if card in DECK_SPADES_CLUBS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES_CLUBS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_SPADES:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_SPADES:
+                    return False
+                index = index + 1
+            return True
+
+##Check for valid play from player if hearts laid (follow suit)
+def player_follow_suit_hearts(hand, trump, card):
+    if trump == HEARTS:
+        if card in DECK_HEARTS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == DIAMONDS:
+        if card in DECK_HEARTS_DIAMONDS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS_DIAMONDS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_HEARTS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_HEARTS:
+                    return False
+                index = index + 1
+            return True
+
+##Check for valid play from player if diamonds laid (follow suit)
+def player_follow_suit_diamonds(hand, trump, card):
+    if trump == DIAMONDS:
+        if card in DECK_DIAMONDS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    elif trump == SPADES:
+        if card in DECK_DIAMONDS_HEARTS_TRUMP:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS_HEARTS_TRUMP:
+                    return False
+                index = index + 1
+            return True
+    else:
+        if card in DECK_DIAMONDS:
+            return True
+        else:
+            index = 0
+            while index < len(hand):
+                if hand[index] in DECK_DIAMONDS:
+                    return False
+                index = index + 1
+            return True
+
+##Check if player can lay card chosen or must follow suit
+def valid_player_card(hand, trump, lead, card):
+    if lead == CLUBS:
+        return player_follow_suit_clubs(hand, trump, card)
+    if lead == SPADES:
+        return player_follow_suit_spades(hand, trump, card)
+    if lead == HEARTS:
+        return player_follow_suit_hearts(hand, trump, card)
+    if lead == DIAMONDS:
+        return player_follow_suit_diamonds(hand, trump, card)
+
+##Determine what card a bot should play if clubs is trump and they have to follow suit
+def bot_card_clubs_trump(hand, lead):
+    if lead == CLUBS:
+        if lowest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_SPADES_CLUBS_TRUMP)
+    elif lead == HEARTS:
+        if highest_card_in_hand(hand, DECK_HEARTS) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS)
+    if highest_card_in_hand(hand, DECK_CLUBS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+    else:
+        return False
+
+##Determine what card a bot should play if spades is trump and they have to follow suit
+def bot_card_spades_trump(hand, lead):
+    if lead == SPADES:
+        if lowest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS_SPADES_TRUMP)
+    elif lead == HEARTS:
+        if highest_card_in_hand(hand, DECK_HEARTS) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS)
+    if highest_card_in_hand(hand, DECK_SPADES_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+    else:
+        return False
+
+##Determine what card a bot should play if hearts is trump and they have to follow suit
+def bot_card_hearts_trump(hand, lead):
+    if lead == HEARTS:
+        if lowest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_DIAMONDS_HEARTS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES) != False:
+            return highest_card_in_hand(hand, DECK_SPADES)
+    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    else:
+        return False
+
+##Determine what card a bot should play if diamonds is trump and they have to follow suit
+def bot_card_diamonds_trump(hand, lead):
+    if lead == DIAMONDS:
+        if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
+            return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
+    elif lead == DIAMONDS:
+        if highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP) != False:
+            return highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP)
+    elif lead == CLUBS:
+        if highest_card_in_hand(hand, DECK_CLUBS) != False:
+            return highest_card_in_hand(hand, DECK_CLUBS)
+    elif lead == SPADES:
+        if highest_card_in_hand(hand, DECK_SPADES) != False:
+            return highest_card_in_hand(hand, DECK_SPADES)
+    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    else:
+        return False
+
+##If the bot doesn't have to follow suit and cannot trump, lay their lowest offsuit card
+def bot_lay_offsuit_card(hand):
+    if number_card_in_hand(hand, DECK_NINE) != False:
+        return number_card_in_hand(hand, DECK_NINE)
+    elif number_card_in_hand(hand, DECK_TEN) != False:
+        return number_card_in_hand(hand, DECK_TEN)
+    elif number_card_in_hand(hand, DECK_JACK) != False:
+        return number_card_in_hand(hand, DECK_JACK)
+    elif number_card_in_hand(hand, DECK_QUEEN) != False:
+        return number_card_in_hand(hand, DECK_QUEEN)
+    elif number_card_in_hand(hand, DECK_KING) != False:
+        return number_card_in_hand(hand, DECK_KING)
+    else:
+        return number_card_in_hand(hand, DECK_ACE)
+
+##Determine if the bot has the right bower in hand
+def bot_lead_right(hand, trump):
+    if trump == CLUBS:
+        if DECK_CLUBS_TRUMP[0] in hand:
+            return DECK_CLUBS_TRUMP[0]
+    elif trump == SPADES:
+        if DECK_SPADES_TRUMP[0] in hand:
+            return DECK_SPADES_TRUMP[0]
+    elif trump == HEARTS:
+        if DECK_HEARTS_TRUMP[0] in hand:
+            return DECK_HEARTS_TRUMP[0]
+    elif trump == DIAMONDS:
+        if DECK_DIAMONDS_TRUMP[0] in hand:
+            return DECK_DIAMONDS_TRUMP[0]
+    return False
+
+##Determine what the highest trump not played is and if it's in hand
+def bot_lead_highest_trump_in_play(hand, trump):
+    if trump == CLUBS:
+        highest_trump = highest_card_in_hand(hand, DECK_CLUBS_TRUMP)
+        index = 0
+        while DECK_CLUBS_TRUMP[index] != highest_trump:
+            if DECK_CLUBS_TRUMP[index] in all_laid_cards:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+    if trump == SPADES:
+        highest_trump = highest_card_in_hand(hand, DECK_SPADES_TRUMP)
+        index = 0
+        while DECK_SPADES_TRUMP[index] != highest_trump:
+            if DECK_SPADES_TRUMP[index] in all_laid_cards:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+    if trump == HEARTS:
+        highest_trump = highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+        index = 0
+        while DECK_HEARTS_TRUMP[index] != highest_trump:
+            if DECK_HEARTS_TRUMP[index] in all_laid_cards:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+    if trump == DIAMONDS:
+        highest_trump = highest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
+        index = 0
+        while DECK_DIAMONDS_TRUMP[index] != highest_trump:
+            if DECK_DIAMONDS_TRUMP[index] in all_laid_cards:
+                index = index + 1
+            else:
+                return False
+        return highest_trump
+
+##Determine if the bot has an offsuit ace in hand
+def bot_lead_offsuit_ace(hand, trump):
+    index = 0
+    while index < 4:
+        card = DECK_ACE[index]
+        if (card in hand) and (trump_check(card, trump) != True):
+            return DECK_ACE[index]
+        index = index + 1
+    return False
+
+##Bot card to lay when leading
+def bot_choose_card_to_lead(hand, trump):
+    this_hand = hand
+    if bot_lead_right(this_hand, trump) != False:
+        return bot_lead_right(this_hand, trump)
+    elif bot_lead_highest_trump_in_play(this_hand, trump) != False:
+        return bot_lead_highest_trump_in_play(this_hand, trump)
+    elif bot_lead_offsuit_ace(this_hand, trump) != False:
+        return bot_lead_offsuit_ace(this_hand, trump)
+    else:
+        card = bot_lay_offsuit_card(this_hand)
+        while trump_check(card, trump) == True:
+            this_hand.remove(card)
+            card = bot_lay_offsuit_card(this_hand)
+        return card
+
+##Bot card to lay when they don't lead
+def bot_choose_card_to_lay(hand, trump, lead):
+    if trump == CLUBS:
+        if bot_card_clubs_trump(hand, lead) != False:
+            return bot_card_clubs_trump(hand, lead)
+    if trump == SPADES:
+        if bot_card_spades_trump(hand, lead) != False:
+            return bot_card_spades_trump(hand, lead)
+    if trump == HEARTS:
+        if bot_card_hearts_trump(hand, lead) != False:
+            return bot_card_hearts_trump(hand, lead)
+    if trump == DIAMONDS:
+        if bot_card_diamonds_trump(hand, lead) != False:
+            return bot_card_diamonds_trump(hand, lead)
+    return bot_lay_offsuit_card(hand)
+
+def play_round():
+    laid_cards = []
+    player_team_points = 0
+    bot_team_points = 0
+    counter = 1
+    while counter < 6:
+        print(f"\n~~~~~~~~~\n Trick {counter}  \n~~~~~~~~~")
+        if turn_order[0] == "player":
+            player_card = player_lead_card()
+            laid_cards.append(player_card)
+            player.remove(player_card)
+            lead = suit_with_trump(player_card, trump)
+        elif turn_order[0] == "cpu1":
+            cpu1_card = bot_choose_card_to_lead(cpu1, trump)
+            laid_cards.append(cpu1_card)
+            cpu1.remove(cpu1_card)
+            lead = suit_with_trump(cpu1_card, trump)
+            print(f"Computer 1 lead {cpu1_card}")
+        elif turn_order[0] == "cpu2":
+            cpu2_card = bot_choose_card_to_lead(cpu2, trump)
+            laid_cards.append(cpu2_card)
+            cpu2.remove(cpu2_card)
+            lead = suit_with_trump(cpu2_card, trump)
+            print(f"Computer 2 lead {cpu2_card}")
+        else:
+            cpu3_card = bot_choose_card_to_lead(cpu3, trump)
+            laid_cards.append(cpu3_card)
+            cpu3.remove(cpu3_card)
+            lead = suit_with_trump(cpu3_card, trump)
+            print(f"Computer 3 lead {cpu3_card}")
+        change_turn()
+        count = 0
+        while count < 3:
             if turn_order[0] == "player":
-                player_card = player_lead_card()
+                player_card = player_lay_card(lead)
+                print(f"You played {player_card}")
                 laid_cards.append(player_card)
                 player.remove(player_card)
-                lead = suit_with_trump(player_card, trump)
+                change_turn()
             elif turn_order[0] == "cpu1":
-                cpu1_card = bot_choose_card_to_lead(cpu1, trump)
+                cpu1_card = bot_choose_card_to_lay(cpu1, trump, lead)
+                print(f"Computer 1 played {cpu1_card}")
                 laid_cards.append(cpu1_card)
                 cpu1.remove(cpu1_card)
-                lead = suit_with_trump(cpu1_card, trump)
-                print(f"Computer 1 lead {cpu1_card}")
+                change_turn()
             elif turn_order[0] == "cpu2":
-                cpu2_card = bot_choose_card_to_lead(cpu2, trump)
+                cpu2_card = bot_choose_card_to_lay(cpu2, trump, lead)
+                print(f"Computer 2 played {cpu2_card}")
                 laid_cards.append(cpu2_card)
                 cpu2.remove(cpu2_card)
-                lead = suit_with_trump(cpu2_card, trump)
-                print(f"Computer 2 lead {cpu2_card}")
+                change_turn()
             else:
-                cpu3_card = bot_choose_card_to_lead(cpu3, trump)
+                cpu3_card = bot_choose_card_to_lay(cpu3, trump, lead)
+                print(f"Computer 3 played {cpu3_card}")
                 laid_cards.append(cpu3_card)
                 cpu3.remove(cpu3_card)
-                lead = suit_with_trump(cpu3_card, trump)
-                print(f"Computer 3 lead {cpu3_card}")
-            change_turn()
-            count = 0
-            while count < 3:
-                if turn_order[0] == "player":
-                    player_card = player_lay_card(lead)
-                    print(f"You played {player_card}")
-                    laid_cards.append(player_card)
-                    player.remove(player_card)
-                    change_turn()
-                elif turn_order[0] == "cpu1":
-                    cpu1_card = bot_choose_card_to_lay(cpu1, trump, lead)
-                    print(f"Computer 1 played {cpu1_card}")
-                    laid_cards.append(cpu1_card)
-                    cpu1.remove(cpu1_card)
-                    change_turn()
-                elif turn_order[0] == "cpu2":
-                    cpu2_card = bot_choose_card_to_lay(cpu2, trump, lead)
-                    print(f"Computer 2 played {cpu2_card}")
-                    laid_cards.append(cpu2_card)
-                    cpu2.remove(cpu2_card)
-                    change_turn()
-                else:
-                    cpu3_card = bot_choose_card_to_lay(cpu3, trump, lead)
-                    print(f"Computer 3 played {cpu3_card}")
-                    laid_cards.append(cpu3_card)
-                    cpu3.remove(cpu3_card)
-                    change_turn()
-                count = count + 1
+                change_turn()
+            count = count + 1
 
-            winning_card = highest_card(trump, lead, laid_cards)
-            if player_card == winning_card:
-                print("You won the trick")
-                player_turn()
-                player_team_points = player_team_points + 1
-            elif cpu1_card == winning_card:
-                print("Computer 1 won the trick")
-                cpu1_turn()
-                bot_team_points = bot_team_points + 1
-            elif cpu2_card == winning_card:
-                print("Computer 2 won the trick")
-                cpu2_turn()
-                player_team_points = player_team_points + 1
-            elif cpu3_card == winning_card:
-                print("Computer 3 won the trick")
-                cpu3_turn()
-                bot_team_points = bot_team_points + 1
-            print("~~~~~~~~~~~~~~~~~~")
-            print(f" Player team: {player_team_points}")
-            print(f" Opposing team: {bot_team_points}")
-            print("~~~~~~~~~~~~~~~~~~")
-            all_laid_cards.append(laid_cards)
-            laid_cards = []
-            counter = counter + 1
-        return player_team_points
+        winning_card = highest_card(trump, lead, laid_cards)
+        if player_card == winning_card:
+            print("You won the trick")
+            player_turn()
+            player_team_points = player_team_points + 1
+        elif cpu1_card == winning_card:
+            print("Computer 1 won the trick")
+            cpu1_turn()
+            bot_team_points = bot_team_points + 1
+        elif cpu2_card == winning_card:
+            print("Computer 2 won the trick")
+            cpu2_turn()
+            player_team_points = player_team_points + 1
+        elif cpu3_card == winning_card:
+            print("Computer 3 won the trick")
+            cpu3_turn()
+            bot_team_points = bot_team_points + 1
+        print("~~~~~~~~~~~~~~~~~~")
+        print(f" Player team: {player_team_points}")
+        print(f" Opposing team: {bot_team_points}")
+        print("~~~~~~~~~~~~~~~~~~")
+        all_laid_cards.append(laid_cards)
+        laid_cards = []
+        counter = counter + 1
+    return player_team_points
+
+##Game play
+print("Welcome to the game of Euchre by Marika and Liam")
+show_rules = input("Would you like to see the rules (type r):")
+if show_rules == "r":
+    print("Rules:")
+    print("Euchre is a trick taking game, with two teams of two. Bot 2 will be your partner.")
+    print("Each round you will be dealt five cards, and then trump must be chosen. Everyone\nwill be asked if they want a certain suit to be trump, and if everyone passes you\nwill have the chance to choose any other suit as trump. As a general rule of thumb,\nif you think you can win at least 3 tricks with a certain suit as trump, you should\nchoose it. If you deal and trump is chosen on the first round, you will be given a\ntrump card to put in your hand and you must discard another card.")
+    print("An important note about trump:")
+    print("Order of trump will be:\nJack of suit chosen; other jack of the SAME COLOUR; ace, king, queen, ten, nine of suit chosen.\nTherefore, the jack of the same colour as trump CANNOT be used when following suit of\na trick of the suit the card appears to be.")
+    print("The person to the left of the dealer will lay a card, and everyone will lay a card,\nand you must follow suit with what card is laid, even if trump was led. If you do\nnot have the suit that was led, you may lay whatever you want. ")
+    print("Whoever wins the trick leads the next one. The scoring for a round is as follows:")
+    print("If your team decided what trump is:")
+    print("    If you win 5 tricks, you get 2 points")
+    print("    If you win 3 or 4 tricks, you get 1 point")
+    print("    If the other team wins 3 or 4 tricks, they get 2 points")
+    print("    If the other team wins 5 tricks, they get 4 points")
+    print("If the other team decided what trump is:")
+    print("    If they win 5 tricks, they get 2 points")
+    print("    If they win 3 or 4 tricks, they get 1 point")
+    print("    If you  wins 3 or 4 tricks, you get 2 points")
+    print("    If you wins 5 tricks, you get 4 points")
+    print("The first team to 10 points wins! Good luck!")
+
+while player_team_round_score < 10 and computer_team_round_score < 10:
+    redeal = PASS
+    while redeal == PASS:
+        ##Create a shuffled deck each round
+        shuffled_deck = list(DECK)
+        random.shuffle(shuffled_deck)
+
+        ##Deal the deck into five hands each round
+        player = shuffled_deck[:5]
+        cpu1 = shuffled_deck[5:10]
+        cpu2 = shuffled_deck[10:15]
+        cpu3 = shuffled_deck[15:20]
+        kitty = shuffled_deck[20:]
+
+        ##Decide the trump suit - if not decided in the first round, runs a second round
+        print("~~~~~~~~~~~~~~~~~~~~~")
+        print(f"Your hand is {player}")
+        first_round = choose_trump_first()
+        if first_round != PASS:
+            trump = suit(kitty[0])
+            who_called = first_round
+            who_dealt = deal_order[0]
+            if who_dealt == "player":
+                add_kitty_card_to_player_hand()
+            elif who_dealt == "cpu1":
+                add_kitty_card_to_bot_hand(cpu1)
+            elif who_dealt == "cpu2":
+                add_kitty_card_to_bot_hand(cpu2)
+            elif who_dealt == "cpu3":
+                add_kitty_card_to_bot_hand(cpu3)
+            else:
+                print("WHY ARE WE HERE")
+            redeal = ""
+        else:
+            second_round = choose_trump_second()
+            if second_round == PASS:
+                redeal = PASS
+                print ("~~~~~~~~~~~~~~~~~~~~~~~\nREDEAL\n~~~~~~~~~~~~~~~~~~~~~~~")
+            else:
+                redeal = ""
+                trump = second_round[0]
+                who_called = second_round[1]
+
+    round_score = play_round()
+    if round_score == 5:
+        if who_called == "player" or who_called == "cpu2":
+            print("Your team won the round and scored 2 points")
+            player_team_round_score = player_team_round_score + 2
+        else:
+                print("Your team won the round and scored 4 points")
+                player_team_round_score = player_team_round_score + 4
+    elif round_score > 2:
+        if who_called == "player" or who_called == "cpu2":
+            print("Your team won the round and scored 1 point")
+            player_team_round_score = player_team_round_score + 1
+        else:
+            print("Your team won the round and scored 2 point")
+            player_team_round_score = player_team_round_score + 2
+    elif round_score == 0:
+        if who_called == "player" or who_called == "cpu2":
+            print("The Opposing team won the round and scored 4 points")
+            computer_team_round_score = computer_team_round_score + 4
+        else:
+            print("The Opposing team won the round and scored 2 points")
+            computer_team_round_score = computer_team_round_score + 2
+    else:
+        if who_called == "player" or who_called == "cpu2":
+            print("The Opposing team won the round and scored 2 point")
+            computer_team_round_score = computer_team_round_score + 2
+        else:
+            print("The Opposing team won the round and scored 1 point")
+            computer_team_round_score = computer_team_round_score + 1
+    change_deal()
+    all_laid_cards = []
+    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\nNext round")
+
+if player_team_round_score >= 10:
+    print("Congrats! You won the game!")
+else:
+    print("Too bad :( You lost...")
