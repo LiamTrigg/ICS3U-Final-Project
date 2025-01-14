@@ -192,7 +192,7 @@ def suit_with_trump(card, trump):
 
 ##Allows the player to choose trump in the first round
 def player_choose_trump_first_round():
-    choice = input(f"Would you like {kitty[0]} to be trump? ")
+    choice = input(f"Would you like {kitty[0]} to be trump? (yes or no): ")
     if choice.lower() == "yes":
         return True
     elif choice.lower() == "no":
@@ -261,8 +261,8 @@ def bot_choose_trump_first_round(hand):
             return False
 
 def add_kitty_card_to_player_hand():
-    print(player)
-    card_choice = input(f"Which card would you like to swap with {kitty[0]}? ")
+    print(f"Your hand is {player}")
+    card_choice = input(f"Which card would you like to swap with {kitty[0]}? (1-5): ")
     try:
         valid_card_choice = int(card_choice)
 
@@ -561,25 +561,6 @@ def choose_trump_second():
         ##Call turn order 4 and force to give actual trump option
         return [SPADES, deal_order[0]]
 
-print(player)
-##Decide the trump suit - if not decided in the first round, runs a second round
-first_round = choose_trump_first()
-if first_round != PASS:
-    trump = suit(kitty[0])
-    who_called = first_round
-    who_dealt = deal_order[0]
-    if who_dealt == "player":
-        add_kitty_card_to_player_hand()
-    elif who_dealt == "cpu1":
-        add_kitty_card_to_bot_hand(cpu1)
-    elif who_dealt == "cpu2":
-        add_kitty_card_to_bot_hand(cpu2)
-    else:
-        add_kitty_card_to_bot_hand(cpu3)
-else:
-    second_round = choose_trump_second()
-    trump = second_round[0]
-    who_called = second_round[1]
 
 ## determine if a card is trump - Marika
 def trump_check(card, trump):
@@ -776,7 +757,7 @@ def valid_player_card(hand, trump, lead, card):
 
 
 def player_lay_card(lead):
-    print(player)
+    print(f"Your hand is {player}")
     card_choice = input(f"Which card would you like to play? ")
     try:
         valid_card_choice = int(card_choice)
@@ -805,7 +786,7 @@ def player_lay_card(lead):
 
 
 def player_lead_card():
-    print(player)
+    print(f"Your hand is {player}")
     card_choice = input(f"Which card would you like to lead? ")
     try:
         valid_card_choice = int(card_choice)
@@ -975,7 +956,7 @@ def bot_choose_card_to_lay(hand, trump, lead):
             return bot_card_hearts_trump(hand, lead)
     if trump == DIAMONDS:
         if bot_card_diamonds_trump(hand, lead) != False:
-            return bot_card_diamonds_trump
+            return bot_card_diamonds_trump(hand, lead)
     return bot_lay_offsuit_card(hand)
 
 
@@ -1060,6 +1041,28 @@ def bot_choose_card_to_lead(hand, trump):
         while trump_check(card, trump) == True:
             card = bot_lay_offsuit_card(hand)
         return card
+
+print(f"Your hand is {player}")
+##Decide the trump suit - if not decided in the first round, runs a second round
+first_round = choose_trump_first()
+if first_round != PASS:
+    trump = suit(kitty[0])
+    who_called = first_round
+    who_dealt = deal_order[0]
+    if who_dealt == "player":
+        add_kitty_card_to_player_hand()
+    elif who_dealt == "cpu1":
+        add_kitty_card_to_bot_hand(cpu1)
+    elif who_dealt == "cpu2":
+        add_kitty_card_to_bot_hand(cpu2)
+    else:
+        add_kitty_card_to_bot_hand(cpu3)
+else:
+    second_round = choose_trump_second()
+    trump = second_round[0]
+    who_called = second_round[1]
+
+turn_order = deal_order
 
 def play_round():
     laid_cards = []
