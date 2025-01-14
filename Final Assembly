@@ -208,7 +208,7 @@ def player_choose_trump_first_round():
     elif choice.lower() == "no":
         return False
     else:
-        player_choose_trump_first_round()
+        return player_choose_trump_first_round()
 
 ##Allows the computer to choose trump in first round
 def bot_choose_trump_first_round(hand):
