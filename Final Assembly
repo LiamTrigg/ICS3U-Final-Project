@@ -976,6 +976,7 @@ def bot_choose_card_to_lead(hand, trump):
     else:
         card = bot_lay_offsuit_card(hand)
         while trump_check(card, trump) == True:
+            hand.remove(card)
             card = bot_lay_offsuit_card(hand)
         return card
 
