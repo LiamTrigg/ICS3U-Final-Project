@@ -956,19 +956,24 @@ def bot_lead_offsuit_ace(hand, trump):
 
 ##Bot card to lay when leading
 def bot_choose_card_to_lead(hand, trump):
-    this_hand = hand
+    this_hand = list(hand)
     if bot_lead_right(this_hand, trump) != False:
         return bot_lead_right(this_hand, trump)
     elif bot_lead_highest_trump_in_play(this_hand, trump) != False:
         return bot_lead_highest_trump_in_play(this_hand, trump)
     elif bot_lead_offsuit_ace(this_hand, trump) != False:
         return bot_lead_offsuit_ace(this_hand, trump)
+    elif len(this_hand) == 1:
+        return(this_hand[0])
     else:
         card = bot_lay_offsuit_card(this_hand)
-        while trump_check(card, trump) == True:
-            this_hand.remove(card)
-            card = bot_lay_offsuit_card(this_hand)
-        return card
+        while len(this_hand) > 0:
+            if trump_check(card, trump) == True:
+                this_hand.remove(card)
+                card = bot_lay_offsuit_card(this_hand)
+            else:
+                return card
+        return hand[0]
 
 ##Bot card to lay when they don't lead
 def bot_choose_card_to_lay(hand, trump, lead):
