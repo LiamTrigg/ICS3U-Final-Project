@@ -281,9 +281,10 @@ def add_kitty_card_to_player_hand():
             print(f"Your new hand is {player}")
         else:
             print("You can not discard that card.")
-            player_lead_card()
+            return add_kitty_card_to_player_hand()
     except:
-        player_lead_card()
+        print("You can not discard that card.")
+        return add_kitty_card_to_player_hand()
 
 ##If bot dealt and trump chosen first round, bot adds card to hand and discards another card
 def add_kitty_card_to_bot_hand(hand):
@@ -624,6 +625,7 @@ def player_lead_card():
             print("You can not play that.")
             return player_lead_card()
     except:
+        print("You can not play that.")
         return player_lead_card()
 
 ##Lets player chose a card to lay when not leading
@@ -653,6 +655,7 @@ def player_lay_card(lead):
             print("You can not play that.")
             return player_lay_card(lead)
     except:
+        print("You can not play that.")
         return player_lay_card(lead)
 
 ##Check for valid play from player if clubs laid (follow suit)
@@ -1165,7 +1168,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
             print("Your team won the round and scored 1 point")
             player_team_round_score = player_team_round_score + 1
         else:
-            print("Your team won the round and scored 2 point")
+            print("Your team won the round and scored 2 points")
             player_team_round_score = player_team_round_score + 2
     elif round_score == 0:
         if who_called == "player" or who_called == "cpu2":
@@ -1176,7 +1179,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
             computer_team_round_score = computer_team_round_score + 2
     else:
         if who_called == "player" or who_called == "cpu2":
-            print("The Opposing team won the round and scored 2 point")
+            print("The Opposing team won the round and scored 2 points")
             computer_team_round_score = computer_team_round_score + 2
         else:
             print("The Opposing team won the round and scored 1 point")
