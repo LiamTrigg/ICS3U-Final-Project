@@ -299,7 +299,7 @@ def add_kitty_card_to_bot_hand(hand):
 
 ##Allows the player to choose trump in the second round
 def player_choose_trump_second_round():
-    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}, type 'pass' to pass) ")
+    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}, type the name of a suit or'pass' to pass) ")
     if choice.lower() == "clubs":
         if suit(kitty[0]) != CLUBS:
             return CLUBS
@@ -1078,8 +1078,8 @@ def play_round():
 
 ##Game play
 print("Welcome to the game of Euchre by Marika and Liam")
-show_rules = input("Would you like to see the rules (type r):")
-if show_rules == "r":
+show_rules = input("Would you like to see the rules (type yes or no): ")
+if show_rules.lower == "yes":
     print("Rules:")
     print("Euchre is a trick taking game, with two teams of two. Bot 2 will be your partner.")
     print("Each round you will be dealt five cards, and then trump must be chosen. Everyone\nwill be asked if they want a certain suit to be trump, and if everyone passes you\nwill have the chance to choose any other suit as trump. As a general rule of thumb,\nif you think you can win at least 3 tricks with a certain suit as trump, you should\nchoose it. If you deal and trump is chosen on the first round, you will be given a\ntrump card to put in your hand and you must discard another card.")
@@ -1142,6 +1142,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
                 trump = second_round[0]
                 who_called = second_round[1]
 
+    ##Score the number of points earned in the round
     round_score = play_round()
     if round_score == 5:
         if who_called == "player" or who_called == "cpu2":
@@ -1175,6 +1176,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
     all_laid_cards = []
     print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\nNext round")
 
+##Final message telling the play if they won or lost
 if player_team_round_score >= 10:
     print("Congrats! You won the game!")
 else:
