@@ -1103,6 +1103,9 @@ if show_rules.lower() == "yes":
 
 while player_team_round_score < 10 and computer_team_round_score < 10:
     redeal = PASS
+    turn_order = list(deal_order)
+    change_turn()
+    who_dealt = deal_order[0]
     while redeal == PASS:
         ##Create a shuffled deck each round
         shuffled_deck = list(DECK)
@@ -1117,9 +1120,6 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
 
         ##Decide the trump suit - if not decided in the first round, runs a second round
         print("~~~~~~~~~~~~~~~~~~~~~~~~")
-        turn_order = list(deal_order)
-        change_turn()
-        who_dealt = deal_order[0]
         match who_dealt:
             case "player":
                 print ("You dealt")
@@ -1160,8 +1160,8 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
             print("Your team won the round and scored 2 points")
             player_team_round_score = player_team_round_score + 2
         else:
-                print("Your team won the round and scored 4 points")
-                player_team_round_score = player_team_round_score + 4
+            print("Your team won the round and scored 4 points")
+            player_team_round_score = player_team_round_score + 4
     elif round_score > 2:
         if who_called == "player" or who_called == "cpu2":
             print("Your team won the round and scored 1 point")
