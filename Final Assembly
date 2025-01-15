@@ -13,8 +13,7 @@ PASS = "pass"
 trump = ""
 lead = ""
 
-##Lists to keep track of whose turn and deal it is
-turn_order = ["cpu1", "cpu2", "cpu3", "player"]
+##Lists to keep track of whose deal it is
 deal_order = ["player", "cpu1", "cpu2", "cpu3"]
 
 ##Score counters for each team
@@ -994,7 +993,7 @@ def bot_choose_card_to_lay(hand, trump, lead):
             return bot_card_diamonds_trump(hand, lead)
     return bot_lay_offsuit_card(hand)
 
-def play_round():
+def play_round(turn_order):
     laid_cards = []
     player_team_points = 0
     bot_team_points = 0
@@ -1155,7 +1154,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
                 who_called = second_round[1]
 
     ##Score the number of points earned in the round
-    round_score = play_round()
+    round_score = play_round(turn_order)
     if round_score == 5:
         if who_called == "player" or who_called == "cpu2":
             print("Your team won the round and scored 2 points")
