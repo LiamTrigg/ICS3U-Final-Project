@@ -300,7 +300,7 @@ def add_kitty_card_to_bot_hand(hand):
 
 ##Allows the player to choose trump in the second round
 def player_choose_trump_second_round():
-    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}, type the name of a suit or'pass' to pass) ")
+    choice = input(f"What suit would you like trump to be? (You may not choose {suit(kitty[0])}, type the name of a suit or 'pass' to pass) ")
     if choice.lower() == "clubs":
         if suit(kitty[0]) != CLUBS:
             return CLUBS
