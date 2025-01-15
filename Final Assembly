@@ -622,9 +622,9 @@ def player_lead_card():
                 return player[4]
         else:
             print("You can not play that.")
-            player_lead_card()
+            return player_lead_card()
     except:
-        player_lead_card()
+        return player_lead_card()
 
 ##Lets player chose a card to lay when not leading
 def player_lay_card(lead):
