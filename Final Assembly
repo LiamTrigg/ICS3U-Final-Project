@@ -1114,7 +1114,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
         kitty = shuffled_deck[20:]
 
         ##Decide the trump suit - if not decided in the first round, runs a second round
-        print("~~~~~~~~~~~~~~~~~~~~~")
+        print("~~~~~~~~~~~~~~~~~~~~~~~~")
         turn_order = list(deal_order)
         change_turn()
         who_dealt = deal_order[0]
@@ -1140,14 +1140,12 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
                 add_kitty_card_to_bot_hand(cpu2)
             elif who_dealt == "cpu3":
                 add_kitty_card_to_bot_hand(cpu3)
-            else:
-                print("WHY ARE WE HERE")
             redeal = ""
         else:
             second_round = choose_trump_second()
             if second_round == PASS:
                 redeal = PASS
-                print ("~~~~~~~~~~~~~~~~~~~~~~~\nREDEAL\n~~~~~~~~~~~~~~~~~~~~~~~")
+                print ("~~~~~~~~~~~~~~~~~~~~~~~~\nREDEAL\n~~~~~~~~~~~~~~~~~~~~~~~~")
             else:
                 redeal = ""
                 trump = second_round[0]
@@ -1185,7 +1183,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
             computer_team_round_score = computer_team_round_score + 1
     change_deal()
     all_laid_cards = []
-    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\n\n~~~~~~~~~~~~~~~~~~~~~~\nNext round")
+    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\n\n~~~~~~~~~~~~~~~~~~~~~~~~\nNext round")
 
 ##Final message telling the play if they won or lost
 if player_team_round_score >= 10:
