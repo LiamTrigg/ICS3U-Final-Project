@@ -1078,8 +1078,8 @@ def play_round():
 
 ##Game play
 print("Welcome to the game of Euchre by Marika and Liam")
-show_rules = input("Would you like to see the rules (type yes or no): ")
-if show_rules.lower == "yes":
+show_rules = input("Would you like to see the rules? (type yes or no): ")
+if show_rules.lower() == "yes":
     print("Rules:")
     print("Euchre is a trick taking game, with two teams of two. Bot 2 will be your partner.")
     print("Each round you will be dealt five cards, and then trump must be chosen. Everyone\nwill be asked if they want a certain suit to be trump, and if everyone passes you\nwill have the chance to choose any other suit as trump. As a general rule of thumb,\nif you think you can win at least 3 tricks with a certain suit as trump, you should\nchoose it. If you deal and trump is chosen on the first round, you will be given a\ntrump card to put in your hand and you must discard another card.")
@@ -1115,12 +1115,23 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
 
         ##Decide the trump suit - if not decided in the first round, runs a second round
         print("~~~~~~~~~~~~~~~~~~~~~")
+        turn_order = list(deal_order)
+        change_turn()
+        who_dealt = deal_order[0]
+        match who_dealt:
+            case "player":
+                print ("You dealt")
+            case "cpu1":
+                print("Computer 1 dealt")
+            case "cpu2":
+                print("Computer 2 dealt")
+            case "cpu3":
+                print("Computer 3 dealt")
         print(f"Your hand is {player}")
         first_round = choose_trump_first()
         if first_round != PASS:
             trump = suit(kitty[0])
             who_called = first_round
-            who_dealt = deal_order[0]
             if who_dealt == "player":
                 add_kitty_card_to_player_hand()
             elif who_dealt == "cpu1":
@@ -1174,7 +1185,7 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
             computer_team_round_score = computer_team_round_score + 1
     change_deal()
     all_laid_cards = []
-    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\nNext round")
+    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\n\n~~~~~~~~~~~~~~~~~~~~~~\nNext round")
 
 ##Final message telling the play if they won or lost
 if player_team_round_score >= 10:
