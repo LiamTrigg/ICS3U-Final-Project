@@ -13,8 +13,9 @@ PASS = "pass"
 trump = ""
 lead = ""
 
-##List to keep track of whose deal it is
+##Lists to keep track of whose deal/turn it is (constantly changing)
 deal_order = ["player", "cpu1", "cpu2", "cpu3"]
+turn_order = ["player", "cpu1", "cpu2", "cpu3"]
 
 ##Score counters for each team
 player_team_round_score = 0
