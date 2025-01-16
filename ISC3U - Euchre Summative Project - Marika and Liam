@@ -863,7 +863,7 @@ def bot_card_diamonds_trump(hand, lead):
     if lead == DIAMONDS:
         if lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
             return lowest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
-    elif lead == DIAMONDS:
+    elif lead == HEARTS:
         if highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP) != False:
             return highest_card_in_hand(hand, DECK_HEARTS_DIAMONDS_TRUMP)
     elif lead == CLUBS:
@@ -872,8 +872,8 @@ def bot_card_diamonds_trump(hand, lead):
     elif lead == SPADES:
         if highest_card_in_hand(hand, DECK_SPADES) != False:
             return highest_card_in_hand(hand, DECK_SPADES)
-    if highest_card_in_hand(hand, DECK_HEARTS_TRUMP) != False:
-        return highest_card_in_hand(hand, DECK_HEARTS_TRUMP)
+    if highest_card_in_hand(hand, DECK_DIAMONDS_TRUMP) != False:
+        return highest_card_in_hand(hand, DECK_DIAMONDS_TRUMP)
     else:
         return False
 
@@ -1190,7 +1190,10 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
             computer_team_round_score = computer_team_round_score + 1
     change_deal()
     all_laid_cards = []
-    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\n\n~~~~~~~~~~~~~~~~~~~~~~~~\nNext round")
+    print (f"~~~~~~~~~~~~~~~~~~~~~~~~\nYour score is {player_team_round_score}\nThe other teams score is {computer_team_round_score}\n~~~~~~~~~~~~~~~~~~~~~~~~\n")
+    if player_team_round_score < 10 and computer_team_round_score < 10:
+        print (f"\n~~~~~~~~~~~~~~~~~~~~~~~~\nNext round")
+
 
 ##Final message telling the play if they won or lost
 if player_team_round_score >= 10:
