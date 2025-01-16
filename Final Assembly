@@ -404,8 +404,6 @@ def choose_trump_first():
     index = 0
     exit = False
     who_chose = ""
-    turn_order = list(deal_order)
-    change_turn()
     while exit == False and index < 4:
         if turn_order[0] == "player":
              if not player_choose_trump_first_round():
@@ -454,8 +452,6 @@ def choose_trump_second():
     index = 0
     exit = False
     who_chose = ""
-    turn_order = list(deal_order)
-    change_turn()
     while exit == False and index < 4:
         if turn_order[0] == "player":
             player_choice = player_choose_trump_second_round()
@@ -998,7 +994,7 @@ def bot_choose_card_to_lay(hand, trump, lead):
             return bot_card_diamonds_trump(hand, lead)
     return bot_lay_offsuit_card(hand)
 
-def play_round(turn_order):
+def play_round():
     laid_cards = []
     player_team_points = 0
     bot_team_points = 0
@@ -1149,6 +1145,8 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
                 add_kitty_card_to_bot_hand(cpu3)
             redeal = ""
         else:
+            turn_order = list(deal_order)
+            change_turn()
             second_round = choose_trump_second()
             if second_round == PASS:
                 redeal = PASS
@@ -1159,7 +1157,9 @@ while player_team_round_score < 10 and computer_team_round_score < 10:
                 who_called = second_round[1]
 
     ##Score the number of points earned in the round
-    round_score = play_round(turn_order)
+    turn_order = list(deal_order)
+    change_turn()
+    round_score = play_round()
     if round_score == 5:
         if who_called == "player" or who_called == "cpu2":
             print("Your team won the round and scored 2 points")
